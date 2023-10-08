@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/patient_color_bg"
+    tools:context=".ConnectingToSensorPage">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="10dp"
+        android:layout_centerVertical="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/connect"
+                android:textColor="@color/black"
+                android:fontFamily="@font/calibribold"
+                android:textSize="20sp"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="46sp"
+                android:layout_margin="20dp"
+                android:hint="@string/sensor_id"
+                android:paddingStart="20dp"
+                android:textSize="15sp"
+
+                android:background="@drawable/custom_edittext_of_connect_sensor"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/enter_sensor_id"
+                android:fontFamily="@font/calibri_regular"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="-10dp"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:background="@drawable/custom_btn_pair_id"
+                android:layout_margin="30dp"
+                android:text="Pair"
+                android:textAllCaps="false"
+                android:fontFamily="@font/calibribold"
+                android:textSize="18sp"/>
+
+
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

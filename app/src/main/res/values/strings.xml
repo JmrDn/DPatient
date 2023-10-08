@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">DPatient</string>
+    <string name="patient">PATIENT</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="glucose_monitoring">Glucose Monitoring</string>
+    <string name="monitor">Monitor your glucose with our endocrinologist</string>
+    <string name="connect_to_sensor">Connect to sensor</string>
+    <string name="view_history">View history</string>
+    <string name="message_doctor">Message Doctor</string>
+    <string name="logout">Logout</string>
+    <string name="connect">Connect</string>
+    <string name="sensor_id">Sensor ID</string>
+    <string name="enter_sensor_id">Enter sensor ID</string>
+</resources>
