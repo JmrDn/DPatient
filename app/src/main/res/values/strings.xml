@@ -13,4 +13,16 @@
     <string name="connect">Connect</string>
     <string name="sensor_id">Sensor ID</string>
     <string name="enter_sensor_id">Enter sensor ID</string>
+    <string name="welcome">Welcome,</string>
+    <string name="meliodas_ferola">Meliodas Ferola</string>
+    <string name="your_doctor_for_monitoring_n_glucose_levels">your doctor for monitoring \nglucose levels</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="glucose_level_average">Glucose level average</string>
+    <string name="lowest_glucose_level">Lowest glucose level</string>
+    <string name="mgdl">mg/dL</string>
+    <string name="recent_glucose_level">Recent glucose level</string>
+    <string name="view_glucose">View glucose</string>
+    <string name="location"><![CDATA[ECBC Diagnostics & Medical Services Co.,\n54-A 8th, Taguig]]></string>
+    <string name="view_location">View location</string>
 </resources>

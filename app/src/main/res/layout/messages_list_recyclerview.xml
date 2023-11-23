@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#FAFAFA">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/receiver_Cardview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardElevation="1dp"
+        android:layout_marginTop="2.5dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="80dp"
+        android:layout_marginBottom="2.5dp"
+        android:backgroundTint="@color/white"
+        app:cardCornerRadius="5dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/receiver_Textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:text="Hello!"
+                android:fontFamily="@font/calibri_regular"
+                android:textColor="@color/black"
+                android:layout_margin="10dp"
+                tools:ignore="HardcodedText" />
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/sender_Cardview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardElevation="1dp"
+        android:layout_marginTop="2.5dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="2.5dp"
+        android:layout_marginStart="80dp"
+        android:layout_alignParentEnd="true"
+        android:backgroundTint="@color/white"
+        app:cardCornerRadius="5dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/primary_background_gradient">
+
+            <TextView
+                android:id="@+id/sender_Textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/calibri_regular"
+                android:text="Hello!"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                tools:ignore="HardcodedText" />
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+
+</RelativeLayout>

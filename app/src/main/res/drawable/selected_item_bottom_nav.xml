@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_selected="true"
+        android:color="@color/patient_color_bg"
+        android:textColor="@color/patient_color_bg"/>
+
+    <item android:state_selected="false"
+        android:color="@color/gray"
+        android:textColor="@color/gray"/>
+</selector>

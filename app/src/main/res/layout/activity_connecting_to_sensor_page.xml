@@ -4,8 +4,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/patient_color_bg"
+    android:background="#FAFAFA"
     tools:context=".ConnectingToSensorPage">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@color/white"
+        android:padding="10dp"
+        android:id="@+id/toolBar_Layout">
+
+
+
+        <ImageButton
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/arrowback"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_marginStart="10dp"
+            android:layout_centerVertical="true"
+            android:id="@+id/back_Btn"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/calibribold"
+            android:text="Connect"
+            android:textColor="@color/black"
+            android:textSize="22sp"
+            tools:ignore="HardcodedText" />
+
+    </RelativeLayout>
+
+
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -13,7 +46,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         app:cardCornerRadius="10dp"
-        app:cardElevation="10dp"
+        app:cardElevation="2dp"
         android:layout_centerVertical="true">
 
         <LinearLayout
@@ -33,13 +66,14 @@
                 />
 
             <EditText
+                android:id="@+id/input_Edittext"
                 android:layout_width="match_parent"
                 android:layout_height="46sp"
                 android:layout_margin="20dp"
                 android:hint="@string/sensor_id"
                 android:paddingStart="20dp"
+                android:paddingEnd="20dp"
                 android:textSize="15sp"
-
                 android:background="@drawable/custom_edittext_of_connect_sensor"
                 />
 
@@ -54,14 +88,21 @@
                 android:layout_marginTop="-10dp"/>
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/pair_Btn"
                 android:layout_width="match_parent"
                 android:layout_height="38dp"
                 android:background="@drawable/custom_btn_pair_id"
-                android:layout_margin="30dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"
                 android:text="Pair"
                 android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:elevation="2dp"
                 android:fontFamily="@font/calibribold"
-                android:textSize="18sp"/>
+                android:textSize="18sp"
+                tools:ignore="HardcodedText" />
 
 
         </LinearLayout>

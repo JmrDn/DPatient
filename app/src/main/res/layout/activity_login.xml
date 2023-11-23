@@ -43,6 +43,7 @@
         android:background="@drawable/custom_login_edittext"
         android:hint="@string/email"
         android:paddingStart="20dp"
+        android:singleLine="true"
         tools:ignore="RtlSymmetry" />
 
     <androidx.appcompat.widget.AppCompatEditText
@@ -58,6 +59,7 @@
         android:drawableRight="@drawable/baseline_visibility_off_24"
         android:background="@drawable/custom_login_edittext"
         android:hint="@string/password"
+        android:singleLine="true"
         android:paddingStart="20dp"
         tools:ignore="RtlSymmetry" />
 

@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".bottomnavfragment.HomeFragment">
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/shimmer_Layout">
+
+        <include layout="@layout/shimmer_layout_of_home_fragment"/>
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+   <RelativeLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:id="@+id/data_Layout">
+
+       <RelativeLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:background="@color/normalGlucoseBackgroundColor"
+           android:layout_alignParentTop="true"
+           android:id="@+id/connectedToSensor_Layout">
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="Connected to sensor"
+               android:textSize="18sp"
+               android:layout_centerInParent="true"
+               android:layout_marginTop="5dp"
+               android:layout_marginEnd="5dp"
+               android:textColor="@color/normalGlucoseTextColor"
+               android:fontFamily="@font/calibribold"/>
+       </RelativeLayout>
+
+       <RelativeLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:id="@+id/welcome_Layout"
+           android:layout_below="@+id/connectedToSensor_Layout">
+
+           <TextView
+               android:id="@+id/welcome"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="@string/welcome"
+               android:layout_marginTop="30dp"
+               android:layout_marginStart="30dp"
+               android:textSize="20sp"
+               android:textColor="@color/black"
+               android:fontFamily="@font/calibri_regular"/>
+           <TextView
+               android:id="@+id/patientName_Textview"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="@string/meliodas_ferola"
+               android:layout_below="@id/welcome"
+               android:layout_marginStart="30dp"
+               android:textSize="30sp"
+               android:textColor="@color/black"
+               android:fontFamily="@font/calibribold"/>
+
+
+
+           <com.google.android.material.imageview.ShapeableImageView
+               android:id="@+id/profile_pic_image_view"
+               android:layout_width="60dp"
+               android:layout_height="60dp"
+               android:layout_alignParentEnd="true"
+               android:layout_centerInParent="true"
+               android:layout_marginEnd="30dp"
+               app:shapeAppearance="@style/circular"
+               app:strokeWidth="2dp"
+               app:strokeColor="@color/patient_color_bg"
+               android:padding="4dp"
+               app:srcCompat="@drawable/profile_pic"
+               />
+
+       </RelativeLayout>
+
+
+       <androidx.cardview.widget.CardView
+           android:id="@+id/header_Cardview"
+           android:layout_width="match_parent"
+           android:layout_height="175dp"
+           android:layout_below="@id/welcome_Layout"
+           app:cardCornerRadius="10dp"
+           android:layout_marginTop="30dp"
+           android:layout_marginStart="30dp"
+           android:layout_marginEnd="30dp"
+           >
+
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:background="@drawable/primary_background_gradient"
+               android:orientation="vertical">
+
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="Dr."
+                   android:textColor="@color/white"
+                   android:fontFamily="@font/calibribold"
+                   android:textSize="15sp"
+                   android:layout_marginStart="30dp"
+                   android:layout_marginTop="20dp"/>
+
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="Felisco"
+                   android:textColor="@color/white"
+                   android:fontFamily="@font/calibribold"
+                   android:layout_marginTop="-10dp"
+                   android:textSize="40sp"
+                   android:layout_marginStart="30dp"
+                   />
+
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_marginStart="30dp"
+                   android:layout_marginTop="0dp"
+                   android:fontFamily="@font/calibri_regular"
+                   android:text="@string/your_doctor_for_monitoring_n_glucose_levels"
+                   android:textColor="@color/white"
+                   android:textSize="12sp" />
+
+           </LinearLayout>
+
+       </androidx.cardview.widget.CardView>
+
+       <ImageView
+           android:layout_width="310dp"
+           android:layout_height="220dp"
+           android:src="@drawable/doctor"
+           android:elevation="5dp"
+           android:layout_below="@id/header_Cardview"
+           android:layout_marginTop="-213dp"
+           android:layout_alignParentEnd="true"
+           android:layout_marginEnd="-30dp"/>
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_marginStart="30dp"
+           android:layout_marginEnd="30dp"
+           android:orientation="horizontal"
+           android:layout_below="@id/header_Cardview"
+           android:layout_marginTop="20dp">
+
+           <androidx.cardview.widget.CardView
+               android:layout_width="match_parent"
+               android:layout_height="110dp"
+               android:layout_marginTop="10dp"
+               android:layout_marginBottom="10dp"
+               android:layout_marginEnd="10dp"
+               android:layout_weight="1"
+               app:cardCornerRadius="5dp">
+
+               <RelativeLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent">
+
+                   <androidx.appcompat.widget.AppCompatButton
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:background="?attr/selectableItemBackground"
+                       android:id="@+id/connect_Btn"/>
+
+                   <ImageView
+                       android:id="@+id/connectToSensor_Imageview"
+                       android:layout_width="50dp"
+                       android:layout_height="45dp"
+                       android:layout_centerHorizontal="true"
+                       android:layout_marginTop="20dp"
+                       android:src="@drawable/connecttosensoricon1" />
+
+                   <TextView
+                       android:id="@+id/connectToSensor_Textview"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_below="@id/connectToSensor_Imageview"
+                       android:layout_centerHorizontal="true"
+                       android:layout_marginTop="5dp"
+                       android:fontFamily="@font/calibribold"
+                       android:text="@string/connect_to_sensor"
+                       android:textColor="@color/black"
+                       android:textSize="12sp" />
+               </RelativeLayout>
+
+           </androidx.cardview.widget.CardView>
+
+           <androidx.cardview.widget.CardView
+               android:layout_width="match_parent"
+               android:layout_height="110dp"
+               android:layout_marginTop="10dp"
+               android:layout_marginBottom="10dp"
+               android:layout_marginStart="10dp"
+
+               app:cardCornerRadius="5dp"
+               android:layout_weight="1">
+
+               <RelativeLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   >
+                   <androidx.appcompat.widget.AppCompatButton
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:background="?attr/selectableItemBackground"
+                       android:id="@+id/viewHistory_Btn"/>
+
+                   <ImageView
+                       android:id="@+id/viewHistory_Imageview"
+                       android:layout_width="50dp"
+                       android:layout_height="45dp"
+                       android:src="@drawable/viewhistoryicon1"
+                       android:layout_marginTop="20dp"
+                       android:layout_centerHorizontal="true"/>
+                   <TextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:text="@string/view_history"
+                       android:layout_centerHorizontal="true"
+                       android:layout_below="@id/viewHistory_Imageview"
+                       android:fontFamily="@font/calibribold"
+                       android:textSize="12sp"
+                       android:textColor="@color/black"
+                       android:layout_marginTop="5dp"/>
+               </RelativeLayout>
+
+           </androidx.cardview.widget.CardView>
+       </LinearLayout>
+   </RelativeLayout>
+
+
+
+
+
+
+
+</RelativeLayout>

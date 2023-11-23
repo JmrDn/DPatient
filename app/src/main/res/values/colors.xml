@@ -11,4 +11,9 @@
     <color name="patientTxt">#009785</color>
     <color name="loginEditTxtBGColor">#D8FFFA</color>
     <color name="enterSensorID">#9AFEF2</color>
+    <color name="normalGlucoseBackgroundColor">#7CFF99</color>
+    <color name="normalGlucoseTextColor">#009C22</color>
+    <color name="highGlucoseBackgroundColor">#FF8A8A</color>
+    <color name="highGlucoseTextColor">#9C0000</color>
+    <color name="gray">#808080</color>
 </resources>

@@ -3,7 +3,23 @@
     <style name="Base.Theme.DPatient" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:windowAnimationStyle">@style/animation</item>
     </style>
 
     <style name="Theme.DPatient" parent="Base.Theme.DPatient" />
+
+    <!-- No Hover for bottom navigation -->
+    <style name="NoHoverBottomNavigation" parent="Widget.Design.BottomNavigationView">
+        <item name="android:background">@android:color/transparent</item>
+        <!-- Add other attributes as needed -->
+    </style>
+    
+    <style name="animation">
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+    </style>
+
+    <style name="circular">
+        <item name="cornerSize">50%</item>
+    </style>
 </resources>

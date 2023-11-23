@@ -1,0 +1,183 @@
+package com.example.dpatient.bottomnavfragment;
+
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.os.Bundle;
+
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.example.dpatient.Adapter.ChatListAdapter;
+import com.example.dpatient.ChatRoom;
+import com.example.dpatient.DoctorChatRoom;
+import com.example.dpatient.Firebase.FirebaseUtil;
+import com.example.dpatient.R;
+import com.example.dpatient.model.ChatRoomModel;
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+
+import org.imaginativeworld.oopsnointernet.callbacks.ConnectionCallback;
+import org.imaginativeworld.oopsnointernet.dialogs.pendulum.DialogPropertiesPendulum;
+import org.imaginativeworld.oopsnointernet.dialogs.pendulum.NoInternetDialogPendulum;
+
+
+public class MessagesFragment extends Fragment {
+
+    ChatListAdapter myAdapter;
+    RecyclerView recyclerView;
+    CardView docMessageCardview;
+    TextView lastMessage,
+            lastMessageTimeStamp,
+            doctorName;
+
+    String doctorId,
+            chatRoomId;
+
+    @SuppressLint({"MissingInflatedId", "SetTextI18n"})
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_messages, container, false);
+        recyclerView = view.findViewById(R.id.chatList_Recyclerview);
+        docMessageCardview = view.findViewById(R.id.docMessages_Cardview);
+        lastMessage = view.findViewById(R.id.lastMessage_Textview);
+        lastMessageTimeStamp = view.findViewById(R.id.lastMessage_time_Textview);
+        doctorName = view.findViewById(R.id.name_TxtView);
+
+        doctorId = "GCaVKPOsHIZuYDDvuYdEKVvgx6I2";
+
+       chatRoomId = FirebaseUtil.getChatRoomId(FirebaseUtil.currentUserUID(), doctorId);
+
+       setUpDoctorInterfaceMessage();
+       noInternetDialog();
+        docMessageCardview.setOnClickListener( v-> {
+            Intent intent = new Intent(getContext(), DoctorChatRoom.class);
+            intent.putExtra("doctorId", doctorId);
+            intent.putExtra("doctorName", doctorName.getText().toString());
+            startActivity(intent);
+
+
+        });
+
+
+        setUpRecyclerview();
+
+        return view;
+    }
+    private void noInternetDialog() {
+        NoInternetDialogPendulum.Builder builder = new NoInternetDialogPendulum.Builder(
+                getActivity(),
+                getLifecycle()
+        );
+
+        DialogPropertiesPendulum properties = builder.getDialogProperties();
+
+        properties.setConnectionCallback(new ConnectionCallback() { // Optional
+            @Override
+            public void hasActiveConnection(boolean hasActiveConnection) {
+                // ...
+            }
+        });
+
+        properties.setCancelable(false); // Optional
+        properties.setNoInternetConnectionTitle("No Internet"); // Optional
+        properties.setNoInternetConnectionMessage("Check your Internet connection and try again"); // Optional
+        properties.setShowInternetOnButtons(true); // Optional
+        properties.setPleaseTurnOnText("Please turn on"); // Optional
+        properties.setWifiOnButtonText("Wifi"); // Optional
+        properties.setMobileDataOnButtonText("Mobile data"); // Optional
+
+
+        builder.build();
+    }
+    private void setUpDoctorInterfaceMessage() {
+
+        FirebaseFirestore.getInstance().collection("chatRooms").document(chatRoomId)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()){
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()){
+                            if (document.getString("lastMessageSenderId").equals(FirebaseUtil.currentUserUID()))
+                                lastMessage.setText("You:" + document.getString("lastMessage"));
+                            else
+                                lastMessage.setText(document.getString("lastMessage"));
+                            Timestamp timestamp = document.getTimestamp("lastMessageTimeStamp");
+                            lastMessageTimeStamp.setText(FirebaseUtil.timeStampToString(timestamp));
+                        }
+                    }
+                    else {
+                        Log.d("TAG", "no such document");
+                    }
+
+
+                });
+
+        FirebaseFirestore.getInstance().collection("UsersUID").document(doctorId)
+                .get()
+                .addOnCompleteListener(task ->{
+                    if (task.isSuccessful()){
+                        DocumentSnapshot documentSnapshot = task.getResult();
+                        if (documentSnapshot.exists()){
+                            doctorName.setText(documentSnapshot.getString("fullName"));
+                        }
+                    }
+                });
+    }
+
+    private void setUpRecyclerview() {
+
+        Query query = FirebaseUtil.chatRoomCollectionReference()
+                .whereArrayContains("patientID", FirebaseUtil.currentUserUID())
+                .orderBy("lastMessageTimeStamp", Query.Direction.DESCENDING);
+
+        FirestoreRecyclerOptions<ChatRoomModel> options = new FirestoreRecyclerOptions.Builder<ChatRoomModel>()
+                .setQuery(query, ChatRoomModel.class).build();
+
+        myAdapter = new ChatListAdapter(options, getContext());
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(myAdapter);
+        myAdapter.startListening();
+
+
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (myAdapter != null){
+            myAdapter.startListening();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (myAdapter != null){
+            myAdapter.stopListening();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (myAdapter != null){
+            myAdapter.notifyDataSetChanged();
+        }
+    }
+}

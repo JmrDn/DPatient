@@ -13,6 +13,33 @@
         android:theme="@style/Theme.DPatient"
         tools:targetApi="31">
         <activity
+            android:name=".SplashScreen.SplashScreenAfterOpeningApp"
+            android:exported="false" />
+        <activity
+            android:name=".EditProfile"
+            android:exported="false" />
+        <activity
+            android:name=".YourProfile"
+            android:exported="false" />
+        <activity
+            android:name=".ViewGlucose"
+            android:exported="false" />
+        <activity
+            android:name=".DoctorChatRoom"
+            android:exported="false" />
+        <activity
+            android:name=".DoctorInfo"
+            android:exported="false" />
+        <activity
+            android:name=".ChatRoom"
+            android:exported="false" />
+        <activity
+            android:name=".ViewHistory"
+            android:exported="false" />
+        <activity
+            android:name=".Homepage1"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity

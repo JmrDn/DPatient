@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FAFAFA"
+    tools:context=".EditProfile">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@color/white"
+        android:padding="10dp"
+        android:id="@+id/toolBar_Layout">
+
+
+
+        <ImageButton
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/arrowback"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_marginStart="10dp"
+            android:layout_centerVertical="true"
+            android:id="@+id/back_Btn"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/calibribold"
+            android:text="Edit Profile"
+            android:textColor="@color/black"
+            android:textSize="22sp"
+            tools:ignore="HardcodedText" />
+
+    </RelativeLayout>
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/profilePicture_Imageview"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        app:srcCompat="@drawable/profile_pic"
+        android:background="#FAFAFA"
+        app:strokeWidth="5dp"
+        android:padding="3dp"
+        app:strokeColor="@color/patient_color_bg"
+        app:shapeAppearance="@style/circular"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        />
+
+    <ImageButton
+        android:id="@+id/selectImage_Btn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/camera"
+        android:backgroundTint="@color/black"
+        android:background="@drawable/circular_bg"
+        app:tint="@color/white"
+        android:padding="10dp"
+        android:layout_toEndOf="@+id/profilePicture_Imageview"
+        android:layout_below="@+id/profilePicture_Imageview"
+        android:layout_marginTop="-50dp"
+        android:layout_marginStart="-40dp"/>
+
+  <LinearLayout
+      android:id="@+id/button_Layout"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_alignParentBottom="true"
+      android:orientation="horizontal">
+
+      <androidx.appcompat.widget.AppCompatButton
+          android:id="@+id/cancel_Btn"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:background="@drawable/secondary_background_button"
+          android:text="Cancel"
+          android:textColor="@color/patient_color_bg"
+          android:layout_marginStart="30dp"
+          android:layout_marginEnd="10dp"
+          android:layout_marginBottom="40dp"
+          android:textAllCaps="false"
+          android:fontFamily="@font/calibribold"
+          android:textSize="20sp"
+          android:layout_weight="1"
+          android:elevation="1dp"
+          android:layout_marginTop="5dp"
+          tools:ignore="HardcodedText" />
+      <androidx.appcompat.widget.AppCompatButton
+          android:id="@+id/save_Btn"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:background="@drawable/primary_button"
+          android:text="Save"
+          android:textColor="@color/white"
+          android:textAllCaps="false"
+          android:fontFamily="@font/calibribold"
+          android:textSize="20sp"
+          android:layout_weight="1"
+          android:layout_marginEnd="30dp"
+          android:layout_marginStart="10dp"
+          android:layout_marginBottom="40dp"
+          android:layout_marginTop="5dp"
+          android:elevation="1dp"
+          tools:ignore="HardcodedText" />
+  </LinearLayout>
+
+</RelativeLayout>

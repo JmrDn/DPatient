@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DoctorInfo">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@color/white"
+        android:padding="10dp"
+        android:id="@+id/toolBar_Layout"
+        android:elevation="2dp">
+
+
+
+        <ImageButton
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/arrowback"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_marginStart="10dp"
+            android:layout_centerVertical="true"
+            android:id="@+id/back_Btn"/>
+
+        <TextView
+            android:id="@+id/name_TxtView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/calibribold"
+            android:text="Doctor Felisco"
+            android:textColor="@color/black"
+            android:textSize="22sp"
+            tools:ignore="HardcodedText" />
+
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:src="@drawable/doctorfelisco"
+        android:layout_below="@id/toolBar_Layout"
+        android:layout_marginTop="-15dp"
+        android:id="@+id/doctor_Imageview"/>
+
+    <TextView
+        android:id="@+id/drFelisco_Textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dr Felisco"
+        android:layout_below="@id/doctor_Imageview"
+        android:fontFamily="@font/calibribold"
+        android:textColor="@color/black"
+        android:textSize="40sp"
+        android:layout_marginStart="30dp"/>
+    
+    <TextView
+        android:id="@+id/specialization_Textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Endocrinologist"
+        android:layout_below="@id/drFelisco_Textview"
+        android:fontFamily="@font/calibri_regular"
+        android:textColor="#808080"
+        android:textSize="20sp"
+        android:layout_marginStart="30dp"/>
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/chatDoctor_Btn"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/doctor_Imageview"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="30dp"
+        android:text="Message doctor"
+        android:fontFamily="@font/calibribold"
+        android:textSize="15sp"
+        android:background="?attr/selectableItemBackground"
+        tools:ignore="HardcodedText"
+        android:drawableEnd="@drawable/messageicon1"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:drawableTint="@color/patient_color_bg"/>
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#808080"
+        android:layout_below="@id/specialization_Textview"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"/>
+
+    <TextView
+        android:id="@+id/location_Textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Location"
+        android:layout_below="@id/view"
+        android:fontFamily="@font/calibribold"
+        android:textSize="25sp"
+        android:textColor="@color/black"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/locationValue_Textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/location"
+        android:layout_below="@id/location_Textview"
+        android:fontFamily="@font/calibri_regular"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:layout_marginStart="30dp"/>
+
+    <TextView
+        android:id="@+id/viewLocation_Textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/view_location"
+        android:fontFamily="@font/calibribold"
+        android:layout_below="@id/locationValue_Textview"
+        android:textSize="15sp"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="30dp"
+        android:textColor="#0645AD"/>
+</RelativeLayout>
