@@ -97,7 +97,7 @@
         android:id="@+id/trendArrow_Imageview"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:src="@drawable/uptrendarrow"
+        android:src="@drawable/nochangestrendarrow"
         android:layout_marginStart="30dp"
         android:layout_marginTop="180dp"
      />
@@ -107,7 +107,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="5dp"
-        android:backgroundTint="#FC0000"
         android:layout_below="@+id/mgdL_Textview"
         android:layout_marginTop="10dp"
         android:layout_marginStart="30dp"
@@ -115,7 +114,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="#00FFFFFF">
 
             <TextView
                 android:id="@+id/glucoseLevelStatus_Textview"

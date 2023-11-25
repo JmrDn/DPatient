@@ -2,6 +2,8 @@ package com.example.dpatient;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -13,20 +15,27 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.dpatient.bottomnavfragment.HomeFragment;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -40,6 +49,9 @@ public class ViewGlucose extends AppCompatActivity {
             isConnectToDeviceId;
 
     ImageView trendArrowImageview;
+    CardView glucoseLevelStatusCardview;
+
+    ArrayList<String> glucoseList;
 
 
     @SuppressLint("MissingInflatedId")
@@ -55,12 +67,14 @@ public class ViewGlucose extends AppCompatActivity {
         glucoseLevelStatusTextview = findViewById(R.id.glucoseLevelStatus_Textview);
         trendArrowImageview = findViewById(R.id.trendArrow_Imageview);
         isConnectToDeviceId = findViewById(R.id.connectedTo_Textview);
+        glucoseLevelStatusCardview = findViewById(R.id.glucoseLevelStatus_Cardview);
 
         Intent intent = getIntent();
         String sensorId = intent.getStringExtra("sensorId");
         String patientId = intent.getStringExtra("patientId");
 
-        setUpTrendArrow(sensorId, patientId);
+        setUpStatusOfGlucoseLevel();
+        setUpTrendArrow(patientId);
         setDetectedGlucoseFromSensorMethod(sensorId, patientId);
         getDetectedGlucoseFromSensorMethod(patientId);
         showDeviceIdConnected();
@@ -75,60 +89,80 @@ public class ViewGlucose extends AppCompatActivity {
         });
     }
 
+
+
+    private void setUpStatusOfGlucoseLevel() {
+
+
+    }
+
     private void showDeviceIdConnected() {
         Intent intent = getIntent();
         String deviceId = intent.getStringExtra("sensorId");
         isConnectToDeviceId.setText("Connected to Device ID: " + deviceId);
     }
 
-    private void setUpTrendArrow(String sensorId, String patientId){
-        FirebaseFirestore.getInstance().collection("Users").document(patientId)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()){
-                        DocumentSnapshot documentSnapshot = task.getResult();
-                        if (documentSnapshot.exists()){
-                           String recentGlucoseLevel = documentSnapshot.getString("recent_glucose_level");
+    private void setUpTrendArrow(String patientId){
 
-                            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child(sensorId);
-                            databaseReference.addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    if (snapshot.exists()){
-                                        String newGlucoseLevel = snapshot.child("glucose_Level").getValue().toString();
-                                        int recentGlucoseLevelInt = Integer.parseInt(recentGlucoseLevel);
-                                        int newGlucoseLevelInt = Integer.parseInt(newGlucoseLevel);
+        CollectionReference collectionReference = FirebaseFirestore.getInstance().collection("Users")
+                .document(patientId).collection("glucose_Level_History");
 
-                                        if (newGlucoseLevelInt > recentGlucoseLevelInt){
-                                            trendArrowImageview.setImageResource(R.drawable.uptrendarrow);
-                                        }
-                                        else if (newGlucoseLevelInt < recentGlucoseLevelInt){
-                                            trendArrowImageview.setImageResource(R.drawable.downtrendarrow);
-                                        }
-                                        else if (newGlucoseLevelInt == recentGlucoseLevelInt){
-                                            trendArrowImageview.setImageResource(R.drawable.nochangestrendarrow);
-                                        }
+        Query query = collectionReference.orderBy("timeStamp", Query.Direction.DESCENDING);
+
+
+
+            query.get()
+                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            if (!queryDocumentSnapshots.isEmpty()){
+                                //Get index 0 from document
+                                DocumentSnapshot newGlucoseSnapshot = queryDocumentSnapshots.getDocuments().get(0);
+
+                                //If document exists
+                                if (queryDocumentSnapshots.getDocuments().get(1).exists()){
+                                    //Get index 1 from document
+                                    DocumentSnapshot oldGlucoseSnapshot = queryDocumentSnapshots.getDocuments().get(1);
+
+                                    String newGlucoseString = newGlucoseSnapshot.getString("glucose_level");
+                                    String oldGlucoseString = oldGlucoseSnapshot.getString("glucose_level");
+
+                                    //Convert string into integer
+                                    int newGlucose = Integer.parseInt(newGlucoseString);
+                                    int oldGlucose = Integer.parseInt(oldGlucoseString);
+
+
+                                    if (newGlucose > oldGlucose){
+                                        trendArrowImageview.setImageResource(R.drawable.uptrendarrow);
                                     }
-                                    else {
-                                        Log.d("TAG", "snapshot does not exist");
+                                    //Glucose level downtrend
+                                    else if (newGlucose < oldGlucose){
+                                        trendArrowImageview.setImageResource(R.drawable.downtrendarrow);
                                     }
+                                    //Glucose level no change
+                                    else if (newGlucose == oldGlucose){
+                                        trendArrowImageview.setImageResource(R.drawable.nochangestrendarrow);
+                                    }
+
                                 }
 
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
 
-                                }
-                            });
-
+                            }
                         }
-                    }
-                });
-        refreshTrendArrow(5000);
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            
+                        }
+                    });
+            
+        refreshTrendArrow(1000);
 
     }
 
     private void setDetectedGlucoseFromSensorMethod(String sensorId,String patientId) {
 
+        glucoseList = new ArrayList<>();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child(sensorId);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -158,9 +192,6 @@ public class ViewGlucose extends AppCompatActivity {
 
                                 }
                             });
-
-
-
                 }
                 else {
                     Log.d("TAG", "no such value");
@@ -172,10 +203,12 @@ public class ViewGlucose extends AppCompatActivity {
 
             }
         });
+
         refreshSetDetectedGlucoseFromSensorMethod(5000);
 
     }
 
+    @SuppressLint({"ResourceAsColor", "SetTextI18n"})
     private void getDetectedGlucoseFromSensorMethod(String patientId) {
         FirebaseFirestore.getInstance().collection("Users").document(patientId)
                 .get()
@@ -187,9 +220,35 @@ public class ViewGlucose extends AppCompatActivity {
                             String time = documentSnapshot.getString("time");
                             String date = documentSnapshot.getString("date");
                             String name = documentSnapshot.getString("fullName");
+
+
                             int glucoseLevel = Integer.parseInt(glucoseLevelString);
 
-                            if (glucoseLevel >= 200) {
+                            /*TODO If the prototype released and the format of time is 24 hours, make a table per date
+                             TODO For example, if the date != currentDate then make another table for the new date and store those detected glucose level inside of the table you created
+                             */
+
+                            if (glucoseLevel < 120){
+                                int colorResource = ContextCompat.getColor(this,R.color.lowGlucoseColor);
+                                glucoseLevelStatusCardview.setCardBackgroundColor(colorResource);
+                                glucoseLevelStatusTextview.setText("Low Glucose");
+                            }
+                           else if (glucoseLevel >= 120 && glucoseLevel <= 140){
+                                int colorResource = ContextCompat.getColor(this,R.color.normalGlucoseColor);
+                                glucoseLevelStatusCardview.setCardBackgroundColor(colorResource);
+                                glucoseLevelStatusTextview.setText("Normal Glucose");
+                            }
+                            else if (glucoseLevel >= 140 && glucoseLevel <= 199){
+                                int colorResource = ContextCompat.getColor(this,R.color.preDiabeticGlucoseColor);
+                                glucoseLevelStatusCardview.setCardBackgroundColor(colorResource);
+                                glucoseLevelStatusTextview.setText("Pre-Diabetic");
+                            }
+
+                            else if (glucoseLevel >= 200) {
+                                int colorResource = ContextCompat.getColor(this,R.color.highGlucoseColor);
+                                glucoseLevelStatusCardview.setCardBackgroundColor(colorResource);
+                                glucoseLevelStatusTextview.setText("High Glucose");
+
                                 HashMap<String, Object> notificationUpdate = new HashMap<>();
                                 notificationUpdate.put("glucose_level", glucoseLevel);
                                 notificationUpdate.put("time", time);
@@ -299,9 +358,9 @@ public class ViewGlucose extends AppCompatActivity {
             public void run() {
                 Intent intent = getIntent();
                 String patientId = intent.getStringExtra("patientId");
-                String sensorId = intent.getStringExtra("sensorId");
 
-                setUpTrendArrow(sensorId,patientId);
+
+                setUpTrendArrow(patientId);
 
 
             }

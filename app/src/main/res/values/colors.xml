@@ -16,4 +16,8 @@
     <color name="highGlucoseBackgroundColor">#FF8A8A</color>
     <color name="highGlucoseTextColor">#9C0000</color>
     <color name="gray">#808080</color>
+    <color name="normalGlucoseColor">#3EAF2C</color>
+    <color name="preDiabeticGlucoseColor">#FEE71D</color>
+    <color name="highGlucoseColor">#FA4414</color>
+    <color name="lowGlucoseColor">#F2DCDB</color>
 </resources>

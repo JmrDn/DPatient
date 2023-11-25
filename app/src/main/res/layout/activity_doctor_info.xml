@@ -48,7 +48,7 @@
         android:id="@+id/doctor_Imageview"/>
 
     <TextView
-        android:id="@+id/drFelisco_Textview"
+        android:id="@+id/drName_Textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Dr Felisco"
@@ -63,7 +63,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Endocrinologist"
-        android:layout_below="@id/drFelisco_Textview"
+        android:layout_below="@id/drName_Textview"
         android:fontFamily="@font/calibri_regular"
         android:textColor="#808080"
         android:textSize="20sp"

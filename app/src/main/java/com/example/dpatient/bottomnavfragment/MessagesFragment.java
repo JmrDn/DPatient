@@ -37,7 +37,6 @@ public class MessagesFragment extends Fragment {
 
     ChatListAdapter myAdapter;
     RecyclerView recyclerView;
-    CardView docMessageCardview;
     TextView lastMessage,
             lastMessageTimeStamp,
             doctorName;
@@ -52,25 +51,14 @@ public class MessagesFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_messages, container, false);
         recyclerView = view.findViewById(R.id.chatList_Recyclerview);
-        docMessageCardview = view.findViewById(R.id.docMessages_Cardview);
         lastMessage = view.findViewById(R.id.lastMessage_Textview);
         lastMessageTimeStamp = view.findViewById(R.id.lastMessage_time_Textview);
         doctorName = view.findViewById(R.id.name_TxtView);
 
-        doctorId = "GCaVKPOsHIZuYDDvuYdEKVvgx6I2";
 
-       chatRoomId = FirebaseUtil.getChatRoomId(FirebaseUtil.currentUserUID(), doctorId);
 
-       setUpDoctorInterfaceMessage();
        noInternetDialog();
-        docMessageCardview.setOnClickListener( v-> {
-            Intent intent = new Intent(getContext(), DoctorChatRoom.class);
-            intent.putExtra("doctorId", doctorId);
-            intent.putExtra("doctorName", doctorName.getText().toString());
-            startActivity(intent);
 
-
-        });
 
 
         setUpRecyclerview();
@@ -103,40 +91,7 @@ public class MessagesFragment extends Fragment {
 
         builder.build();
     }
-    private void setUpDoctorInterfaceMessage() {
 
-        FirebaseFirestore.getInstance().collection("chatRooms").document(chatRoomId)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()){
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()){
-                            if (document.getString("lastMessageSenderId").equals(FirebaseUtil.currentUserUID()))
-                                lastMessage.setText("You:" + document.getString("lastMessage"));
-                            else
-                                lastMessage.setText(document.getString("lastMessage"));
-                            Timestamp timestamp = document.getTimestamp("lastMessageTimeStamp");
-                            lastMessageTimeStamp.setText(FirebaseUtil.timeStampToString(timestamp));
-                        }
-                    }
-                    else {
-                        Log.d("TAG", "no such document");
-                    }
-
-
-                });
-
-        FirebaseFirestore.getInstance().collection("UsersUID").document(doctorId)
-                .get()
-                .addOnCompleteListener(task ->{
-                    if (task.isSuccessful()){
-                        DocumentSnapshot documentSnapshot = task.getResult();
-                        if (documentSnapshot.exists()){
-                            doctorName.setText(documentSnapshot.getString("fullName"));
-                        }
-                    }
-                });
-    }
 
     private void setUpRecyclerview() {
 

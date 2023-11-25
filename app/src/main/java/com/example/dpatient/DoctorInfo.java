@@ -7,7 +7,9 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,8 +24,9 @@ import org.imaginativeworld.oopsnointernet.dialogs.pendulum.NoInternetDialogPend
 public class DoctorInfo extends AppCompatActivity {
 
     Button chatDoctorBtn;
-    String doctorId;
-    TextView viewLocationBtn;
+    String doctorId, doctorName;
+    TextView viewLocationBtn, drName;
+    ImageView backBtn;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,14 +35,27 @@ public class DoctorInfo extends AppCompatActivity {
 
         chatDoctorBtn = findViewById(R.id.chatDoctor_Btn);
         viewLocationBtn = findViewById(R.id.viewLocation_Textview);
-        doctorId = "GCaVKPOsHIZuYDDvuYdEKVvgx6I2";
+        backBtn = findViewById(R.id.back_Btn);
+        drName = findViewById(R.id.drName_Textview);
 
+
+
+        Intent intent = getIntent();
+        doctorId = intent.getStringExtra("doctorUID");
+        doctorName = intent.getStringExtra("doctorName");
+
+        setDoctorName();
         noInternetDialog();
 
+        backBtn.setOnClickListener(v->{
+            onBackPressed();
+        });
+
         chatDoctorBtn.setOnClickListener(v->{
-            Intent intent = new Intent(getApplicationContext(), DoctorChatRoom.class);
-            intent.putExtra("doctorId", doctorId);
-            startActivity(intent);
+            Intent intent1 = new Intent(getApplicationContext(), DoctorChatRoom.class);
+            intent1.putExtra("doctorId", doctorId);
+            intent1.putExtra("doctorName", doctorName);
+            startActivity(intent1);
         });
 
         viewLocationBtn.setOnClickListener(v->{
@@ -47,6 +63,11 @@ public class DoctorInfo extends AppCompatActivity {
         });
 
 
+    }
+
+    private void setDoctorName() {
+
+       drName.setText(doctorName);
     }
 
     private void goLink(String linkLocation) {

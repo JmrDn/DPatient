@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
@@ -39,7 +40,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -51,6 +55,7 @@ import org.imaginativeworld.oopsnointernet.dialogs.pendulum.NoInternetDialogPend
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -59,7 +64,8 @@ public class HomeFragment extends Fragment {
     AppCompatButton connectToSensorBtn,
             viewHistoryBtn;
     TextView nameTextview,
-            connectToSensorTextview;
+            connectToSensorTextview,
+            doctorName;
     ImageView connectToSensorImageview;
 
     CardView proceedToDoctorInfoBtn;
@@ -94,10 +100,13 @@ public class HomeFragment extends Fragment {
         profileImageview = view.findViewById(R.id.profile_pic_image_view);
         shimmerFrameLayout = view.findViewById(R.id.shimmer_Layout);
         layout = view.findViewById(R.id.data_Layout);
+        doctorName = view.findViewById(R.id.drName_Textview);
+        String doctorUID = "zTn8owqx4TVylJKcq1mjZ9KXjqs2";
+
 
         //TODO reminder shimmerlayout is off
         shimmerFrameLayout.setVisibility(View.INVISIBLE);
-
+        setDoctorName(doctorUID);
         setUpPatientName();
         setUpProfilePicture();
         //Go to profile
@@ -120,8 +129,27 @@ public class HomeFragment extends Fragment {
         noInternetDialog();
 
         proceedToDoctorInfoBtn.setOnClickListener(v->{
+            FirebaseFirestore.getInstance().collection("userDoctor").document(doctorUID)
+                            .get()
+                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                            if (task.isSuccessful()){
+                                                DocumentSnapshot documentSnapshot = task.getResult();
+                                                if (documentSnapshot.exists()){
+                                                    String doctorName = documentSnapshot.getString("fullName");
+                                                    Intent intent = new Intent(getContext(), DoctorInfo.class);
+                                                    intent.putExtra("doctorName", doctorName);
+                                                    intent.putExtra("doctorUID", doctorUID);
+                                                    startActivity(intent);
+                                                }
+                                            }
+                                            else {
+                                                Log.d("HomeFragment, L141", "Task failed");
+                                            }
+                                        }
+                                    });
 
-            startActivity(new Intent(getContext(), DoctorInfo.class));
         });
 
 
@@ -142,6 +170,31 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
+    private void setDoctorName(String doctorUID) {
+
+        FirebaseFirestore.getInstance().collection("userDoctor").document(doctorUID)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()){
+                            DocumentSnapshot documentSnapshot = task.getResult();
+
+                            if (documentSnapshot.exists()){
+                                String drName = documentSnapshot.getString("fullName");
+                                String [] word = drName.split("\\s+");
+
+                                doctorName.setText(word[1]);
+                            }
+                        }
+                        else {
+                            Log.d("Doctor database", "Failed to retrieve");
+                        }
+                    }
+                });
+
+
+    }
 
 
     private void setShimmerLayout() {
