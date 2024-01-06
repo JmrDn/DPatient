@@ -1,23 +1,16 @@
-package com.example.dpatient.Firebase;
+package com.example.dpatient.Utils;
 
 
 import android.annotation.SuppressLint;
-import android.util.Log;
 
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Objects;
 
 public class FirebaseUtil {
 
@@ -73,5 +66,7 @@ public class FirebaseUtil {
     public static String timeStampToString(Timestamp timestamp){
         return new SimpleDateFormat("hh:mm a").format(timestamp.toDate());
     }
+
+
 
 }

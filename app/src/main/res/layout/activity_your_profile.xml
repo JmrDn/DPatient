@@ -51,6 +51,19 @@
         android:layout_marginTop="100dp"
      />
 
+    <TextView
+        android:id="@+id/patientId_Textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="4502"
+        android:fontFamily="@font/calibribold"
+        android:textColor="@color/gray"
+        android:textSize="15sp"
+        android:layout_below="@id/profilePicture_Imageview"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        tools:ignore="HardcodedText" />
+
     <ImageButton
         android:id="@+id/editImage_Btn"
         android:layout_width="40dp"
@@ -70,12 +83,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Your name"
-        android:layout_below="@+id/profilePicture_Imageview"
+        android:layout_below="@+id/patientId_Textview"
         android:textSize="30sp"
         android:textColor="@color/black"
         android:fontFamily="@font/calibribold"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"/>
+        android:layout_marginTop="-5dp"/>
 
     <TextView
         android:id="@+id/email_Textview"

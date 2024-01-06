@@ -13,6 +13,21 @@
         android:theme="@style/Theme.DPatient"
         tools:targetApi="31">
         <activity
+            android:name=".SensorPage"
+            android:exported="false" />
+        <activity
+            android:name=".SignUpMethod.AccountCreatedSuccessfully"
+            android:exported="false" />
+        <activity
+            android:name=".SignUpMethod.SignUpStep2"
+            android:exported="false" />
+        <activity
+            android:name=".SignUpMethod.SignUpStep1"
+            android:exported="false" />
+        <activity
+            android:name=".ForgotPassword"
+            android:exported="false" />
+        <activity
             android:name=".SplashScreen.SplashScreenAfterOpeningApp"
             android:exported="false" />
         <activity

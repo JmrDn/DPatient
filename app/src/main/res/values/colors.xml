@@ -20,4 +20,6 @@
     <color name="preDiabeticGlucoseColor">#FEE71D</color>
     <color name="highGlucoseColor">#FA4414</color>
     <color name="lowGlucoseColor">#F2DCDB</color>
+    <color name="selectedColor">#DBFFFB</color>
+    <color name="LTGray">#d3d3d3</color>
 </resources>

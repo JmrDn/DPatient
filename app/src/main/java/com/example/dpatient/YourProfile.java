@@ -46,6 +46,8 @@ public class YourProfile extends AppCompatActivity {
     Button logOutBtn;
 
     StorageReference storageReference;
+    private  UserDetails userDetails;
+    private TextView patientIdTV;
 
 
 
@@ -61,6 +63,7 @@ public class YourProfile extends AppCompatActivity {
         logOutBtn = findViewById(R.id.logout_Btn);
         backBtn = findViewById(R.id.back_Btn);
         emailTextview = findViewById(R.id.email_Textview);
+        patientIdTV = findViewById(R.id.patientId_Textview);
 
         backBtn.setOnClickListener(v->{
             onBackPressed();
@@ -68,6 +71,10 @@ public class YourProfile extends AppCompatActivity {
         });
 
         logOutBtn.setOnClickListener(view -> {
+            if (getApplicationContext() != null)
+                userDetails = new UserDetails(getApplicationContext());
+
+            userDetails.logout();
             FirebaseAuth.getInstance().signOut();
             Toast.makeText(getApplicationContext(),"Log out successfully", Toast.LENGTH_LONG).show();
             startActivity(new Intent(getApplicationContext(), Login.class));
@@ -91,18 +98,22 @@ public class YourProfile extends AppCompatActivity {
         Intent intent = getIntent();
         String patientId = intent.getStringExtra("patientId");
 
-        FirebaseFirestore.getInstance().collection("Users").document(patientId)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()){
-                        DocumentSnapshot documentSnapshot = task.getResult();
-                        if (documentSnapshot.exists()){
-                            String fileName = documentSnapshot.getString("profilePicture");
+        patientIdTV.setText(patientId);
 
-                            retrieveImage(fileName);
+        if (patientId != null){
+            FirebaseFirestore.getInstance().collection("Users").document(patientId)
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()){
+                            DocumentSnapshot documentSnapshot = task.getResult();
+                            if (documentSnapshot.exists()){
+                                String fileName = documentSnapshot.getString("profilePicture");
+
+                                retrieveImage(fileName);
+                            }
                         }
-                    }
-                });
+                    });
+        }
     }
     private  void retrieveImage(String fileName){
         storageReference = FirebaseStorage.getInstance().getReference("images/"+ fileName);

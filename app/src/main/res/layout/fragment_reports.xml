@@ -1,126 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#FAFAFA"
     tools:context=".bottomnavfragment.ReportsFragment">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:background="@color/white"
-        android:padding="10dp"
-        android:id="@+id/toolBar_Layout">
+        android:background="#FAFAFA"
+        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:fontFamily="@font/calibribold"
-            android:text="Reports"
-            android:textColor="@color/black"
-            android:textSize="22sp"
-            tools:ignore="HardcodedText" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/glucoseAverage_Layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_below="@id/toolBar_Layout">
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/glucoseLevelAverage_Cardview"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:background="@color/white"
+            android:padding="10dp"
+            android:id="@+id/toolBar_Layout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/calibribold"
+                android:text="Reports"
+                android:textColor="@color/black"
+                android:textSize="22sp"
+                tools:ignore="HardcodedText" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/glucoseAverage_Layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:layout_marginTop="10dp"
-            app:cardElevation="2dp"
-            app:cardCornerRadius="5dp"
-            android:backgroundTint="#A1B6FF"
-            android:layout_marginBottom="10dp">
+            android:layout_below="@id/toolBar_Layout">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/average_Textview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/glucose_level_average"
-                    android:fontFamily="@font/calibribold"
-                    android:textSize="18sp"
-                    android:textColor="#3F5BBE"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginStart="20dp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Normal"
-                    android:fontFamily="@font/calibri_regular"
-                    android:textSize="15sp"
-                    android:layout_below="@id/average_Textview"
-                    android:textColor="#3F5BBE"
-                    android:layout_marginStart="20dp"/>
-
-                <TextView
-                    android:id="@+id/glucoseLevelAverage_Textview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="101"
-                    android:fontFamily="@font/calibribold"
-                    android:textSize="50sp"
-                    android:layout_alignParentEnd="true"
-                    android:textColor="#3F5BBE"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="20dp"/>
-
-                <TextView
-                    android:id="@+id/mgdL_Textview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="mg/dL"
-                    android:fontFamily="@font/calibribold"
-                    android:textSize="15sp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_below="@id/glucoseLevelAverage_Textview"
-                    android:textColor="#3F5BBE"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginTop="-15dp"
-                    />
-
-            </RelativeLayout>
-            
-
-
-        </androidx.cardview.widget.CardView>
-        
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_below="@id/glucoseLevelAverage_Cardview">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Overall"
+                android:fontFamily="@font/calibribold"
+                android:textColor="@color/black"
+                android:textSize="25sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="20dp"
+                android:id="@+id/overall_Textview"/>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/glucoseLevelAverage_Cardview"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                app:cardElevation="5dp"
-                android:backgroundTint="#FFA5A5"
-                android:layout_weight="1"
                 android:layout_marginStart="20dp"
-                android:layout_marginEnd="10dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_below="@id/overall_Textview"
+                app:cardElevation="2dp"
                 app:cardCornerRadius="5dp"
+                android:backgroundTint="#A1B6FF"
                 android:layout_marginBottom="10dp">
 
                 <RelativeLayout
@@ -128,116 +73,499 @@
                     android:layout_height="match_parent">
 
                     <TextView
-                        android:id="@+id/highestGlucoseLevel_Textview"
+                        android:id="@+id/average_Textview"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="290"
-                        android:textSize="40sp"
+                        android:text="@string/glucose_level_average"
                         android:fontFamily="@font/calibribold"
-                        android:textColor="#A94848"
-                        android:layout_marginEnd="20dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginTop="10dp"/>
+                        android:textSize="18sp"
+                        android:textColor="#3F5BBE"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="20dp"/>
 
                     <TextView
-                        android:id="@+id/mgdL"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Normal"
+                        android:fontFamily="@font/calibri_regular"
+                        android:textSize="15sp"
+                        android:layout_below="@id/average_Textview"
+                        android:textColor="#3F5BBE"
+                        android:layout_marginStart="20dp"/>
+
+                    <TextView
+                        android:id="@+id/glucoseLevelAverage_Textview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="101"
+                        android:fontFamily="@font/calibribold"
+                        android:textSize="50sp"
+                        android:layout_alignParentEnd="true"
+                        android:textColor="#3F5BBE"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="20dp"/>
+
+                    <TextView
+                        android:id="@+id/mgdL_Textview"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="mg/dL"
-                        android:textSize="12sp"
-                        android:layout_marginTop="-15dp"
-                        android:layout_below="@id/highestGlucoseLevel_Textview"
-                        android:textColor="#A94848"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="20dp"
-                        android:fontFamily="@font/calibribold"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Highest glucose level"
-                            android:fontFamily="@font/calibribold"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginBottom="10dp"
+                        android:fontFamily="@font/calibribold"
                         android:textSize="15sp"
-                        android:layout_centerHorizontal="true"
-                        android:textColor="#A94848"
-                        tools:ignore="HardcodedText" />
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@id/glucoseLevelAverage_Textview"
+                        android:textColor="#3F5BBE"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginTop="-15dp"
+                        />
 
                 </RelativeLayout>
 
 
+
             </androidx.cardview.widget.CardView>
 
-
-            <androidx.cardview.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
-                app:cardElevation="5dp"
-                android:backgroundTint="#7CFF99"
-                android:layout_weight="1"
-                android:layout_marginEnd="20dp"
-                android:layout_marginStart="10dp"
-                app:cardCornerRadius="5dp">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@id/glucoseLevelAverage_Cardview">
 
-                <RelativeLayout
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="100dp"
+                    app:cardElevation="5dp"
+                    android:backgroundTint="#FFA5A5"
+                    android:layout_weight="1"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="10dp"
+                    app:cardCornerRadius="5dp"
+                    android:layout_marginBottom="10dp">
 
-                    <TextView
-                        android:id="@+id/glucose_Average_TxtView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="105"
-                        android:textSize="40sp"
-                        android:fontFamily="@font/calibribold"
-                        android:textColor="#009C22"
-                        android:layout_marginEnd="20dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginTop="10dp"/>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/mgdl"
-                        android:textSize="12sp"
-                        android:layout_marginTop="-15dp"
-                        android:layout_below="@id/glucose_Average_TxtView"
-                        android:textColor="#009C22"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="20dp"
-                        android:fontFamily="@font/calibribold"/>
+                        <TextView
+                            android:id="@+id/highestGlucoseLevel_Textview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="290"
+                            android:textSize="40sp"
+                            android:fontFamily="@font/calibribold"
+                            android:textColor="#A94848"
+                            android:layout_marginEnd="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginTop="10dp"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/lowest_glucose_level"
-                        android:fontFamily="@font/calibribold"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginBottom="10dp"
-                        android:textSize="15sp"
-                        android:layout_centerHorizontal="true"
-                        android:textColor="#009C22"/>
+                        <TextView
+                            android:id="@+id/mgdL"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="mg/dL"
+                            android:textSize="12sp"
+                            android:layout_marginTop="-15dp"
+                            android:layout_below="@id/highestGlucoseLevel_Textview"
+                            android:textColor="#A94848"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="20dp"
+                            android:fontFamily="@font/calibribold"/>
 
-                </RelativeLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Highest glucose level"
+                            android:fontFamily="@font/calibribold"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginBottom="10dp"
+                            android:textSize="15sp"
+                            android:layout_centerHorizontal="true"
+                            android:textColor="#A94848"
+                            tools:ignore="HardcodedText" />
 
-
-            </androidx.cardview.widget.CardView>
-
-
-        </LinearLayout>
-    </RelativeLayout>
-
-   <com.github.mikephil.charting.charts.LineChart
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       android:layout_below="@id/glucoseAverage_Layout"
-       android:layout_marginTop="5dp"
-       android:layout_marginStart="30dp"
-       android:layout_marginEnd="30dp"
-       android:id="@+id/lineChart"/>
+                    </RelativeLayout>
 
 
+                </androidx.cardview.widget.CardView>
 
 
-</RelativeLayout>
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    app:cardElevation="5dp"
+                    android:backgroundTint="#7CFF99"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginStart="10dp"
+                    app:cardCornerRadius="5dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/lowestGlucoseLevel_TxtView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="105"
+                            android:textSize="40sp"
+                            android:fontFamily="@font/calibribold"
+                            android:textColor="#009C22"
+                            android:layout_marginEnd="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginTop="10dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/mgdl"
+                            android:textSize="12sp"
+                            android:layout_marginTop="-15dp"
+                            android:layout_below="@id/lowestGlucoseLevel_TxtView"
+                            android:textColor="#009C22"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="20dp"
+                            android:fontFamily="@font/calibribold"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/lowest_glucose_level"
+                            android:fontFamily="@font/calibribold"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginBottom="10dp"
+                            android:textSize="15sp"
+                            android:layout_centerHorizontal="true"
+                            android:textColor="#009C22"/>
+
+                    </RelativeLayout>
+
+
+                </androidx.cardview.widget.CardView>
+
+
+            </LinearLayout>
+        </RelativeLayout>
+
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginTop="10dp"
+         android:layout_marginStart="10dp"
+         android:layout_marginEnd="10dp"
+         android:orientation="vertical"
+         android:background="@color/white">
+
+
+
+         <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="10dp"
+             android:orientation="horizontal">
+
+             <androidx.appcompat.widget.AppCompatButton
+                 android:layout_width="50dp"
+                 android:layout_height="wrap_content"
+                 android:drawableEnd="@drawable/previous_arrow"
+                 android:paddingEnd="10dp"
+                 android:layout_marginStart="20dp"
+                 android:id="@+id/previousWeekAction_Button"
+                 android:background="?attr/selectableItemBackgroundBorderless"
+                 tools:ignore="HardcodedText" />
+
+             <TextView
+                 android:id="@+id/monthYear_Textview"
+                 android:layout_width="0dp"
+                 android:layout_height="wrap_content"
+                 android:layout_weight="2"
+                 android:text="Feb 2023"
+                 android:textSize="25sp"
+                 android:textAlignment="center"
+                 android:fontFamily="@font/calibribold"
+                 android:textColor="@color/black"
+                 tools:ignore="HardcodedText" />
+
+             <androidx.appcompat.widget.AppCompatButton
+                 android:layout_width="50dp"
+                 android:layout_height="wrap_content"
+                 android:drawableStart="@drawable/next_arrow"
+                 android:layout_marginEnd="20dp"
+                 android:paddingStart="15dp"
+                 android:textColor="@color/patient_color_bg"
+                 android:background="?attr/selectableItemBackgroundBorderless"
+                 android:id="@+id/nextWeekAction_Button"
+                 tools:ignore="HardcodedText" />
+         </LinearLayout>
+
+         <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:orientation="horizontal"
+             android:layout_marginTop="10dp"
+             android:layout_marginStart="20dp"
+             android:layout_marginEnd="20dp"
+             >
+
+             <TextView
+                 android:layout_width="0dp"
+                 android:layout_height="wrap_content"
+                 android:text="SUN"
+                 android:fontFamily="@font/calibribold"
+                 android:textSize="20sp"
+                 android:textColor="@color/black"
+                 android:layout_weight="1"
+                 android:textAlignment="center"
+                 tools:ignore="HardcodedText" />
+
+             <TextView
+                 android:layout_width="0dp"
+                 android:layout_height="wrap_content"
+                 android:text="MON"
+                 android:fontFamily="@font/calibribold"
+                 android:textSize="20sp"
+                 android:layout_weight="1"
+                 android:textAlignment="center"
+                 android:textColor="@color/black"
+                 tools:ignore="HardcodedText" />
+             <TextView
+                 android:layout_width="0dp"
+                 android:layout_height="wrap_content"
+                 android:text="TUE"
+                 android:fontFamily="@font/calibribold"
+                 android:textSize="20sp"
+                 android:layout_weight="1"
+                 android:textColor="@color/black"
+                 android:textAlignment="center"
+                 tools:ignore="HardcodedText" />
+             <TextView
+                 android:layout_width="0dp"
+                 android:layout_height="wrap_content"
+                 android:text="WED"
+                 android:layout_weight="1"
+                 android:fontFamily="@font/calibribold"
+                 android:textSize="20sp"
+                 android:textColor="@color/black"
+                 android:textAlignment="center"
+                 tools:ignore="HardcodedText" />
+             <TextView
+                 android:layout_width="0dp"
+                 android:layout_height="wrap_content"
+                 android:text="THU"
+                 android:fontFamily="@font/calibribold"
+                 android:textSize="20sp"
+                 android:textColor="@color/black"
+                 android:layout_weight="1"
+                 android:textAlignment="center"
+                 tools:ignore="HardcodedText" />
+             <TextView
+                 android:layout_width="0dp"
+                 android:layout_height="wrap_content"
+                 android:text="FRI"
+                 android:layout_weight="1"
+                 android:textColor="@color/black"
+                 android:textAlignment="center"
+                 android:fontFamily="@font/calibribold"
+                 android:textSize="20sp"
+                 tools:ignore="HardcodedText" />
+             <TextView
+                 android:layout_width="0dp"
+                 android:layout_height="wrap_content"
+                 android:text="SAT"
+                 android:fontFamily="@font/calibribold"
+                 android:textSize="20sp"
+                 android:textColor="@color/black"
+                 android:layout_weight="1"
+                 android:textAlignment="center"
+                 tools:ignore="HardcodedText" />
+         </LinearLayout>
+
+         <androidx.recyclerview.widget.RecyclerView
+             android:layout_width="match_parent"
+             android:layout_height="60dp"
+             android:layout_marginTop="10dp"
+             android:id="@+id/calendarRecyclerview"
+             android:layout_marginStart="20dp"
+             android:layout_marginEnd="20dp"
+             />
+
+         <FrameLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             >
+             <RelativeLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent">
+
+                 <FrameLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:id="@+id/lineChart_FrameLayout">
+
+                     <LinearLayout
+                         android:layout_width="match_parent"
+                         android:layout_height="match_parent"
+                         android:orientation="vertical">
+
+                         <com.github.mikephil.charting.charts.LineChart
+                             android:layout_width="match_parent"
+                             android:layout_height="300dp"
+                             android:layout_marginTop="5dp"
+                             android:layout_marginStart="20dp"
+                             android:layout_marginEnd="20dp"
+                             android:id="@+id/lineChart"/>
+
+
+                         <LinearLayout
+                             android:layout_width="match_parent"
+                             android:layout_height="wrap_content"
+                             android:orientation="horizontal"
+                             android:layout_marginTop="10dp">
+
+                             <LinearLayout
+                                 android:layout_width="match_parent"
+                                 android:layout_height="wrap_content"
+                                 android:orientation="vertical"
+                                 android:layout_weight="1">
+                                 <TextView
+                                     android:id="@+id/dayHighestGlucose_Textview"
+                                     android:layout_width="wrap_content"
+                                     android:layout_height="wrap_content"
+                                     android:text="180"
+                                     android:fontFamily="@font/calibri_regular"
+                                     android:textColor="@color/black"
+                                     android:textSize="30sp"
+                                     android:layout_gravity="center"
+                                     tools:ignore="HardcodedText" />
+                                 <TextView
+                                     android:layout_width="wrap_content"
+                                     android:layout_height="wrap_content"
+                                     android:text="Highest Glucose"
+                                     android:layout_gravity="center"
+                                     android:fontFamily="@font/calibri_regular"
+                                     android:textColor="@color/black"
+                                     android:textSize="15sp"
+                                     tools:ignore="HardcodedText" />
+
+                             </LinearLayout>
+                             <LinearLayout
+                                 android:layout_width="match_parent"
+                                 android:layout_height="wrap_content"
+                                 android:orientation="vertical"
+                                 android:layout_weight="1">
+                                 <TextView
+                                     android:id="@+id/dayLowestGlucose_Textview"
+                                     android:layout_width="wrap_content"
+                                     android:layout_height="wrap_content"
+                                     android:text="180"
+                                     android:fontFamily="@font/calibri_regular"
+                                     android:textColor="@color/black"
+                                     android:textSize="30sp"
+                                     android:layout_gravity="center"
+                                     tools:ignore="HardcodedText" />
+                                 <TextView
+                                     android:layout_width="wrap_content"
+                                     android:layout_height="wrap_content"
+                                     android:text="Lowest Glucose"
+                                     android:layout_gravity="center"
+                                     android:fontFamily="@font/calibri_regular"
+                                     android:textColor="@color/black"
+                                     android:textSize="15sp"
+                                     tools:ignore="HardcodedText" />
+
+                             </LinearLayout>
+
+
+
+                         </LinearLayout>
+
+                         <TextView
+                             android:id="@+id/dayAverageGlucose_Textview"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:text="180"
+                             android:fontFamily="@font/calibri_regular"
+                             android:layout_marginTop="5dp"
+                             android:textColor="@color/black"
+                             android:textSize="30sp"
+                             android:layout_gravity="center"
+                             tools:ignore="HardcodedText" />
+                         <TextView
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:text="Average Glucose"
+                             android:layout_gravity="center"
+                             android:fontFamily="@font/calibri_regular"
+                             android:textColor="@color/black"
+                             android:textSize="15sp"
+                             android:layout_marginBottom="20dp"
+                             tools:ignore="HardcodedText" />
+
+                         <TextView
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:text="History"
+                             android:fontFamily="@font/calibribold"
+                             android:textColor="@color/black"
+                             android:textSize="20sp"
+                             android:layout_marginStart="20dp"
+                             tools:ignore="HardcodedText" />
+
+                         <androidx.recyclerview.widget.RecyclerView
+                             android:layout_width="match_parent"
+                             android:layout_height="wrap_content"
+                             android:id="@+id/glucoseHistory_Recyclerview"
+                             android:layout_marginTop="10dp"/>
+
+
+                     </LinearLayout>
+                 </FrameLayout>
+
+                 <FrameLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="300dp"
+                     android:layout_centerInParent="true"
+                     android:id="@+id/noData_FrameLayout">
+                     <RelativeLayout
+                         android:layout_width="match_parent"
+                         android:layout_height="match_parent"
+                        >
+
+                         <TextView
+                             android:id="@+id/noData_Textview"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:text="No data"
+                             android:fontFamily="@font/calibribold"
+                             android:textSize="25sp"
+                             android:layout_centerInParent="true"
+                             android:textColor="@color/black"
+                             tools:ignore="HardcodedText" />
+
+                         <TextView
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:text="Start using our sensor to track your glucose level"
+                             android:layout_below="@id/noData_Textview"
+                             android:layout_centerHorizontal="true"
+
+                             android:textSize="15sp"
+                             android:fontFamily="@font/calibri_regular"
+                             android:textColor="@color/gray"
+                             tools:ignore="HardcodedText" />
+                     </RelativeLayout>
+                 </FrameLayout>
+
+
+             </RelativeLayout>
+         </FrameLayout>
+
+
+     </LinearLayout>
+
+    </LinearLayout>
+
+
+
+
+</ScrollView>

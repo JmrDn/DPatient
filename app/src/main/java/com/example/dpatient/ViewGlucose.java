@@ -23,6 +23,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -117,42 +118,56 @@ public class ViewGlucose extends AppCompatActivity {
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                             if (!queryDocumentSnapshots.isEmpty()){
                                 //Get index 0 from document
-                                DocumentSnapshot newGlucoseSnapshot = queryDocumentSnapshots.getDocuments().get(0);
 
-                                //If document exists
-                                if (queryDocumentSnapshots.getDocuments().get(1).exists()){
-                                    //Get index 1 from document
-                                    DocumentSnapshot oldGlucoseSnapshot = queryDocumentSnapshots.getDocuments().get(1);
+                                if (queryDocumentSnapshots.getDocuments().get(0).exists()){
+                                    DocumentSnapshot newGlucoseSnapshot = queryDocumentSnapshots.getDocuments().get(0);
 
-                                    String newGlucoseString = newGlucoseSnapshot.getString("glucose_level");
-                                    String oldGlucoseString = oldGlucoseSnapshot.getString("glucose_level");
+                                    //If document exists
+                                    if (queryDocumentSnapshots.getDocuments().get(1).exists()){
+                                        //Get index 1 from document
+                                        DocumentSnapshot oldGlucoseSnapshot = queryDocumentSnapshots.getDocuments().get(1);
 
-                                    //Convert string into integer
-                                    int newGlucose = Integer.parseInt(newGlucoseString);
-                                    int oldGlucose = Integer.parseInt(oldGlucoseString);
+                                        //New glucose detected
+                                        String newGlucoseString = newGlucoseSnapshot.getString("glucose_level");
+                                        //Old glucose detected
+                                        String oldGlucoseString = oldGlucoseSnapshot.getString("glucose_level");
+
+                                        //Convert string into integer
+                                        int newGlucose = Integer.parseInt(newGlucoseString);
+                                        int oldGlucose = Integer.parseInt(oldGlucoseString);
 
 
-                                    if (newGlucose > oldGlucose){
-                                        trendArrowImageview.setImageResource(R.drawable.uptrendarrow);
+                                        if (newGlucose > oldGlucose){
+                                            trendArrowImageview.setImageResource(R.drawable.uptrendarrow);
+                                        }
+                                        //Glucose level downtrend
+                                        else if (newGlucose < oldGlucose){
+                                            trendArrowImageview.setImageResource(R.drawable.downtrendarrow);
+                                        }
+                                        //Glucose level no change
+                                        else if (newGlucose == oldGlucose){
+                                            trendArrowImageview.setImageResource(R.drawable.nochangestrendarrow);
+                                        }
+
                                     }
-                                    //Glucose level downtrend
-                                    else if (newGlucose < oldGlucose){
-                                        trendArrowImageview.setImageResource(R.drawable.downtrendarrow);
-                                    }
-                                    //Glucose level no change
-                                    else if (newGlucose == oldGlucose){
-                                        trendArrowImageview.setImageResource(R.drawable.nochangestrendarrow);
+                                    else {
+                                        Log.d("TAG","Document does not exist");
                                     }
 
                                 }
-
-
+                                else {
+                                    Log.d("TAG","Document does not exist");
+                                }
                             }
+                            else {
+                                Log.d("TAG","Document does not exist");
+                            }
+
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            
+
                         }
                     });
             
@@ -221,29 +236,36 @@ public class ViewGlucose extends AppCompatActivity {
                             String date = documentSnapshot.getString("date");
                             String name = documentSnapshot.getString("fullName");
 
-
+                            //Convert string into integer
                             int glucoseLevel = Integer.parseInt(glucoseLevelString);
 
                             /*TODO If the prototype released and the format of time is 24 hours, make a table per date
                              TODO For example, if the date != currentDate then make another table for the new date and store those detected glucose level inside of the table you created
                              */
 
+                            //Low glucose
                             if (glucoseLevel < 120){
                                 int colorResource = ContextCompat.getColor(this,R.color.lowGlucoseColor);
                                 glucoseLevelStatusCardview.setCardBackgroundColor(colorResource);
                                 glucoseLevelStatusTextview.setText("Low Glucose");
                             }
+
+                            //Normal glucose
                            else if (glucoseLevel >= 120 && glucoseLevel <= 140){
                                 int colorResource = ContextCompat.getColor(this,R.color.normalGlucoseColor);
                                 glucoseLevelStatusCardview.setCardBackgroundColor(colorResource);
                                 glucoseLevelStatusTextview.setText("Normal Glucose");
                             }
+
+                           // Pre-Diabetic
                             else if (glucoseLevel >= 140 && glucoseLevel <= 199){
                                 int colorResource = ContextCompat.getColor(this,R.color.preDiabeticGlucoseColor);
                                 glucoseLevelStatusCardview.setCardBackgroundColor(colorResource);
                                 glucoseLevelStatusTextview.setText("Pre-Diabetic");
                             }
 
+
+                            //High glucose
                             else if (glucoseLevel >= 200) {
                                 int colorResource = ContextCompat.getColor(this,R.color.highGlucoseColor);
                                 glucoseLevelStatusCardview.setCardBackgroundColor(colorResource);
@@ -255,6 +277,7 @@ public class ViewGlucose extends AppCompatActivity {
                                 notificationUpdate.put("date", date);
                                 notificationUpdate.put("name", name);
                                 notificationUpdate.put("patientID", patientId);
+                                notificationUpdate.put("userUID", FirebaseAuth.getInstance().getUid());
 
                                 FirebaseFirestore.getInstance().collection("high_glucose_list").document(patientId)
                                         .set(notificationUpdate)

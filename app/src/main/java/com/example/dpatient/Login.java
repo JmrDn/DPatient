@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
@@ -15,8 +16,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.dpatient.SignUpMethod.SignUpStep1;
 import com.example.dpatient.SplashScreen.SplashScreenAfterOpeningApp;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -24,10 +27,13 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.auth.User;
 
 import org.imaginativeworld.oopsnointernet.callbacks.ConnectionCallback;
 import org.imaginativeworld.oopsnointernet.dialogs.pendulum.DialogPropertiesPendulum;
 import org.imaginativeworld.oopsnointernet.dialogs.pendulum.NoInternetDialogPendulum;
+
+import java.util.ArrayList;
 
 public class Login extends AppCompatActivity {
 
@@ -38,18 +44,17 @@ public class Login extends AppCompatActivity {
     boolean passwordVisible;
 
     FirebaseAuth firebaseAuth;
+    TextView forgotPasswordBtn,
+                noAccountYetBtn;
+    private UserDetails userDetails;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        password = findViewById(R.id.password_EditText);
-        email = findViewById(R.id.username_EditTxt);
-        loginBtn = findViewById(R.id.login_Btn);
-        loginProgressBar = findViewById(R.id.login_ProgressBar);
+        initWidgets();
 
-        firebaseAuth = FirebaseAuth.getInstance();
 
         passwordHideMethod();
         noInternetDialog();
@@ -79,15 +84,73 @@ public class Login extends AppCompatActivity {
                 }
                 else {
 
-                    firebaseAuth.signInWithEmailAndPassword(emailString, passwordString)
-                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if (task.isSuccessful()) {
-                                        loginBtn.setVisibility(View.GONE);
-                                        loginProgressBar.setVisibility(View.VISIBLE);
+                    signIn(emailString, passwordString);
+                }
+            }
+        });
 
-                                        verifyPatientAccount(FirebaseAuth.getInstance().getUid());
+        forgotPasswordBtn.setOnClickListener(v->{
+            startActivity(new Intent(getApplicationContext(), ForgotPassword.class));
+        });
+
+        noAccountYetBtn.setOnClickListener(v->{
+            startActivity(new Intent(getApplicationContext(), SignUpStep1.class));
+        });
+    }
+
+    private void setUpUserDetails() {
+        if(getApplicationContext() != null){
+            userDetails = new UserDetails(getApplicationContext());
+
+            if(firebaseAuth.getCurrentUser() != null){
+
+                FirebaseFirestore.getInstance().collection("UsersUID").document(firebaseAuth.getUid())
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if(task.isSuccessful()){
+                                    DocumentSnapshot documentSnapshot = task.getResult();
+                                    if(documentSnapshot.exists()){
+                                        String patientId = documentSnapshot.getString("patientID");
+                                        String name = documentSnapshot.getString("fullName");
+                                        String email = documentSnapshot.getString("email");
+
+
+                                        userDetails.setName(name);
+                                        userDetails.setEmail(email);
+                                        userDetails.setPatientId(patientId);
+
+                                        if(documentSnapshot.contains("isConnectedTo") && documentSnapshot.contains("isConnectedToSensor")){
+                                            String sensorId = documentSnapshot.getString("isConnectedTo");
+                                            boolean isConnected = documentSnapshot.getBoolean("isConnectedToSensor");
+
+                                            userDetails.setAccountIsConnectedToSensor(isConnected);
+                                            userDetails.setSensorId(sensorId);
+                                        }
+
+                                    }
+                                }
+                            }
+                        });
+
+            }
+        }
+
+    }
+
+    private void signIn(String email, String password) {
+
+        firebaseAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            loginBtn.setVisibility(View.GONE);
+                            loginProgressBar.setVisibility(View.VISIBLE);
+
+
+                            verifyPatientAccount(FirebaseAuth.getInstance().getUid());
 //                                        if(firebaseAuth.getCurrentUser().isEmailVerified()){
 //
 //                                        }
@@ -97,22 +160,24 @@ public class Login extends AppCompatActivity {
 //                                            loginProgressBar.setVisibility(View.GONE);
 //                                        }
 
-                                    } else {
-                                        Toast.makeText(getApplicationContext(), "SIGN IN FAILED", Toast.LENGTH_SHORT).show();
-                                        loginBtn.setVisibility(View.VISIBLE);
-                                        loginProgressBar.setVisibility(View.GONE);
-                                    }
-                                }
-                            });
+                        } else {
+                            Toast.makeText(getApplicationContext(), "SIGN IN FAILED", Toast.LENGTH_SHORT).show();
+                            loginBtn.setVisibility(View.VISIBLE);
+                            loginProgressBar.setVisibility(View.GONE);
+                        }
+                    }
+                });
+    }
 
+    private void initWidgets() {
+        password = findViewById(R.id.password_EditText);
+        email = findViewById(R.id.username_EditTxt);
+        loginBtn = findViewById(R.id.login_Btn);
+        loginProgressBar = findViewById(R.id.login_ProgressBar);
+        forgotPasswordBtn = findViewById(R.id.forgotPassword_Textview);
+        noAccountYetBtn = findViewById(R.id.noAccount_Textview);
 
-                }
-
-
-
-
-            }
-        });
+        firebaseAuth = FirebaseAuth.getInstance();
     }
 
     void verifyPatientAccount(String userUID){
@@ -129,8 +194,16 @@ public class Login extends AppCompatActivity {
                                     loginProgressBar.setVisibility(View.VISIBLE);
 
                                     //Account type is patient, means it can proceed
-                                    Toast.makeText(getApplicationContext(),"Sign in successfully", Toast.LENGTH_LONG).show();
-                                    startActivity(new Intent(getApplicationContext(), Homepage1.class));
+                                    setUpUserDetails();
+
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Toast.makeText(getApplicationContext(),"Sign in successfully", Toast.LENGTH_LONG).show();
+                                            startActivity(new Intent(getApplicationContext(), Homepage1.class));
+                                        }
+                                    }, 3000);
+
 
                                 }
                                 else {

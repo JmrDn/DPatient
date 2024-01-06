@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context=".SignUpMethod.SignUpStep1">
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/toolbar"
+            android:background="@color/white"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="What's your Personal Information?"
+            android:fontFamily="@font/calibribold"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter the personal information in real life"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/calibri_regular"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:layout_marginStart="15dp"
+            tools:ignore="HardcodedText" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/firstName_Edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="First name"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="15dp"
+                android:layout_weight="1"
+                android:padding="20dp"
+                android:background="@drawable/custom_signup_edittext"
+                tools:ignore="HardcodedText" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/lastName_Edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Last name"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="15dp"
+                android:layout_weight="1"
+                android:padding="20dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/custom_signup_edittext"
+                tools:ignore="HardcodedText" />
+
+        </LinearLayout>
+
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/loginEditTxtBGColor"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            app:cardCornerRadius="10dp">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/radioGroup"
+                    >
+
+                    <RadioButton
+                        android:id="@+id/radioBtn_Male"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Male"
+                        android:textSize="18sp"
+                        android:checked="false"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="20dp"
+                        android:paddingEnd="20dp"
+                        android:paddingStart="100dp"
+                        tools:ignore="HardcodedText" />
+
+                    <RadioButton
+                        android:id="@+id/radioBtn_Female"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Female"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginBottom="10dp"
+                        android:textSize="18sp"
+                        android:paddingStart="100dp"
+                        android:paddingEnd="20dp"
+                        tools:ignore="HardcodedText,RtlSymmetry" />
+
+                    <RadioButton
+                        android:id="@+id/preferNotToSay_RadioButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Prefer not to say"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginBottom="10dp"
+                        android:textSize="18sp"
+                        android:paddingStart="100dp"
+                        android:paddingEnd="20dp"
+
+                        tools:ignore="HardcodedText,RtlSymmetry" />
+
+                </RadioGroup>
+
+                <RelativeLayout
+                    android:id="@+id/genderError_Layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/flat_red_1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Choose one"
+                        android:fontFamily="@font/calibribold"
+                        android:textColor="@color/white"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="20sp"
+                        android:layout_marginStart="10dp"
+                        tools:ignore="HardcodedText" />
+                </RelativeLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <EditText
+            android:id="@+id/age_EditTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            android:padding="20dp"
+            android:background="@drawable/custom_signup_edittext"
+            android:hint="Age"
+            android:paddingStart="20dp"
+            tools:ignore="HardcodedText,RtlSymmetry" />
+
+
+        <EditText
+            android:id="@+id/address_EditTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            android:padding="20dp"
+            android:background="@drawable/custom_signup_edittext"
+            android:hint="Address"
+            android:paddingStart="20dp"
+            tools:ignore="HardcodedText,RtlSymmetry" />
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/next_Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Next"
+            android:fontFamily="@font/calibribold"
+            android:textSize="20sp"
+            android:textAllCaps="false"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="20dp"
+            android:padding="15dp"
+            android:textColor="@color/white"
+            android:background="@drawable/custom_login_btn"
+            tools:ignore="HardcodedText" />
+    </LinearLayout>
+
+
+
+</ScrollView>

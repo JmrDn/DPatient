@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dpatient.ChatRoom;
-import com.example.dpatient.Firebase.FirebaseUtil;
+import com.example.dpatient.Utils.FirebaseUtil;
 import com.example.dpatient.R;
 import com.example.dpatient.model.ChatRoomModel;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;

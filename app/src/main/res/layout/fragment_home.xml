@@ -3,16 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FAFAFA"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".bottomnavfragment.HomeFragment">
 
-    <com.facebook.shimmer.ShimmerFrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/shimmer_Layout">
 
-        <include layout="@layout/shimmer_layout_of_home_fragment"/>
-    </com.facebook.shimmer.ShimmerFrameLayout>
 
    <RelativeLayout
        android:layout_width="match_parent"
@@ -24,6 +19,7 @@
            android:layout_height="wrap_content"
            android:background="@color/normalGlucoseBackgroundColor"
            android:layout_alignParentTop="true"
+           android:visibility="visible"
            android:id="@+id/connectedToSensor_Layout">
            <TextView
                android:layout_width="wrap_content"
@@ -41,6 +37,9 @@
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:id="@+id/welcome_Layout"
+           android:background="@color/white"
+           android:layout_marginStart="10dp"
+           android:layout_marginEnd="10dp"
            android:layout_below="@+id/connectedToSensor_Layout">
 
            <TextView
@@ -62,6 +61,7 @@
                android:layout_marginStart="30dp"
                android:textSize="30sp"
                android:textColor="@color/black"
+               android:layout_marginBottom="10dp"
                android:fontFamily="@font/calibribold"/>
 
 
@@ -82,169 +82,108 @@
 
        </RelativeLayout>
 
-
-       <androidx.cardview.widget.CardView
-           android:id="@+id/header_Cardview"
-           android:layout_width="match_parent"
-           android:layout_height="175dp"
-           android:layout_below="@id/welcome_Layout"
-           app:cardCornerRadius="10dp"
-           android:layout_marginTop="30dp"
-           android:layout_marginStart="30dp"
-           android:layout_marginEnd="30dp"
-           >
-
-
-           <LinearLayout
-               android:layout_width="match_parent"
-               android:layout_height="match_parent"
-               android:background="@drawable/primary_background_gradient"
-               android:orientation="vertical">
-
-               <TextView
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:text="Dr."
-                   android:textColor="@color/white"
-                   android:fontFamily="@font/calibribold"
-                   android:textSize="15sp"
-                   android:layout_marginStart="30dp"
-                   android:layout_marginTop="20dp"/>
-
-               <TextView
-                   android:id="@+id/drName_Textview"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:text="Felisco"
-                   android:textColor="@color/white"
-                   android:fontFamily="@font/calibribold"
-                   android:layout_marginTop="-10dp"
-                   android:textSize="40sp"
-                   android:layout_marginStart="30dp"
-                   />
-
-               <TextView
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_marginStart="30dp"
-                   android:layout_marginTop="0dp"
-                   android:fontFamily="@font/calibri_regular"
-                   android:text="@string/your_doctor_for_monitoring_n_glucose_levels"
-                   android:textColor="@color/white"
-                   android:textSize="12sp" />
-
-           </LinearLayout>
-
-       </androidx.cardview.widget.CardView>
-
-       <ImageView
-           android:layout_width="310dp"
-           android:layout_height="220dp"
-           android:src="@drawable/doctor"
-           android:elevation="5dp"
-           android:layout_below="@id/header_Cardview"
-           android:layout_marginTop="-213dp"
-           android:layout_alignParentEnd="true"
-           android:layout_marginEnd="-30dp"/>
-
-       <LinearLayout
+       <RelativeLayout
+           android:id="@+id/glucose_Layout"
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
-           android:layout_marginStart="30dp"
-           android:layout_marginEnd="30dp"
-           android:orientation="horizontal"
-           android:layout_below="@id/header_Cardview"
-           android:layout_marginTop="20dp">
+           android:layout_marginStart="10dp"
+           android:layout_marginTop="10dp"
+           android:layout_marginEnd="10dp"
+           android:background="@color/white"
+           android:layout_below="@id/welcome_Layout">
 
-           <androidx.cardview.widget.CardView
-               android:layout_width="match_parent"
-               android:layout_height="110dp"
+            <TextView
+                android:id="@+id/glucose_Textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Glucose"
+                android:fontFamily="@font/calibribold"
+                android:textSize="30sp"
+                android:textColor="@color/black"
+                android:layout_marginStart="20sp"
+                android:layout_marginTop="10dp"
+                tools:ignore="HardcodedText" />
+
+           <TextView
+               android:id="@+id/time_Textview"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="Today | 5:34 PM"
+               android:fontFamily="@font/calibribold"
+               android:textSize="15sp"
+               android:textColor="@color/black"
+               android:layout_alignParentEnd="true"
                android:layout_marginTop="10dp"
-               android:layout_marginBottom="10dp"
-               android:layout_marginEnd="10dp"
-               android:layout_weight="1"
-               app:cardCornerRadius="5dp">
+               android:layout_marginEnd="20dp"
+               tools:ignore="HardcodedText" />
+           
+           <LinearLayout
+               android:id="@+id/glucoseBG_Layout"
+               android:layout_width="match_parent"
+               android:layout_height="100dp"
+               android:layout_below="@id/glucose_Textview"
+               android:layout_marginStart="20dp"
+               android:layout_marginEnd="20dp"
+               android:layout_marginTop="10dp"
+               android:orientation="horizontal"
+               android:background="@drawable/lightblue_bg">
 
                <RelativeLayout
-                   android:layout_width="match_parent"
-                   android:layout_height="match_parent">
-
-                   <androidx.appcompat.widget.AppCompatButton
-                       android:layout_width="match_parent"
-                       android:layout_height="match_parent"
-                       android:background="?attr/selectableItemBackground"
-                       android:id="@+id/connect_Btn"/>
-
-                   <ImageView
-                       android:id="@+id/connectToSensor_Imageview"
-                       android:layout_width="50dp"
-                       android:layout_height="45dp"
-                       android:layout_centerHorizontal="true"
-                       android:layout_marginTop="20dp"
-                       android:src="@drawable/connecttosensoricon1" />
-
-                   <TextView
-                       android:id="@+id/connectToSensor_Textview"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:layout_below="@id/connectToSensor_Imageview"
-                       android:layout_centerHorizontal="true"
-                       android:layout_marginTop="5dp"
-                       android:fontFamily="@font/calibribold"
-                       android:text="@string/connect_to_sensor"
-                       android:textColor="@color/black"
-                       android:textSize="12sp" />
-               </RelativeLayout>
-
-           </androidx.cardview.widget.CardView>
-
-           <androidx.cardview.widget.CardView
-               android:layout_width="match_parent"
-               android:layout_height="110dp"
-               android:layout_marginTop="10dp"
-               android:layout_marginBottom="10dp"
-               android:layout_marginStart="10dp"
-
-               app:cardCornerRadius="5dp"
-               android:layout_weight="1">
-
-               <RelativeLayout
-                   android:layout_width="match_parent"
+                   android:id="@+id/glucoseStatusColor_RelativeLayout"
+                   android:layout_width="100dp"
                    android:layout_height="match_parent"
-                   >
-                   <androidx.appcompat.widget.AppCompatButton
-                       android:layout_width="match_parent"
-                       android:layout_height="match_parent"
-                       android:background="?attr/selectableItemBackground"
-                       android:id="@+id/viewHistory_Btn"/>
+                   android:background="@drawable/low_glucose_status_color">
 
-                   <ImageView
-                       android:id="@+id/viewHistory_Imageview"
-                       android:layout_width="50dp"
-                       android:layout_height="45dp"
-                       android:src="@drawable/viewhistoryicon1"
-                       android:layout_marginTop="20dp"
-                       android:layout_centerHorizontal="true"/>
                    <TextView
+                       android:id="@+id/glucoseStatus_Textview"
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
-                       android:text="@string/view_history"
-                       android:layout_centerHorizontal="true"
-                       android:layout_below="@id/viewHistory_Imageview"
+                       android:layout_centerInParent="true"
+                       android:layout_marginStart="10dp"
+                       android:layout_marginEnd="10dp"
                        android:fontFamily="@font/calibribold"
-                       android:textSize="12sp"
-                       android:textColor="@color/black"
-                       android:layout_marginTop="5dp"/>
+                       android:text="Low"
+                       android:textAlignment="center"
+                       android:textColor="@color/white"
+                       android:textSize="20sp"
+                       tools:ignore="HardcodedText" />
                </RelativeLayout>
 
-           </androidx.cardview.widget.CardView>
-       </LinearLayout>
+               <TextView
+                   android:id="@+id/glucoseLevel_Textview"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="0"
+                   android:fontFamily="@font/calibribold"
+                   android:textSize="70sp"
+                   android:textColor="@color/black"
+                   android:layout_marginStart="10dp"
+                   android:layout_gravity="center_vertical"
+                   tools:ignore="HardcodedText" />
+
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="mg/dL"
+                   android:fontFamily="@font/calibribold"
+                   android:textSize="20sp"
+                   android:textColor="@color/black"
+                   android:layout_marginTop="50dp"
+                   android:layout_marginStart="5dp"
+                   tools:ignore="HardcodedText" />
+           </LinearLayout>
+
+           <com.github.mikephil.charting.charts.LineChart
+               android:layout_width="match_parent"
+               android:layout_height="200dp"
+               android:layout_marginStart="20dp"
+               android:layout_marginEnd="20dp"
+               android:layout_below="@id/glucoseBG_Layout"
+               android:layout_marginTop="10dp"
+               android:layout_marginBottom="10dp"
+               android:id="@+id/lineChart"/>
+       </RelativeLayout>
+
    </RelativeLayout>
-
-
-
-
-
-
 
 </RelativeLayout>

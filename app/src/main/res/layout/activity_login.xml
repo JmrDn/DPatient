@@ -64,6 +64,7 @@
         tools:ignore="RtlSymmetry" />
 
   <FrameLayout
+      android:id="@+id/button_FrameLayout"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_below="@id/password_EditText">
@@ -97,6 +98,31 @@
 
       </RelativeLayout>
   </FrameLayout>
+
+    <TextView
+        android:id="@+id/forgotPassword_Textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Forgotten Password?"
+        android:fontFamily="@font/calibri_regular"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:layout_below="@id/button_FrameLayout"
+        android:layout_centerHorizontal="true"
+        tools:ignore="HardcodedText" />
+
+    <TextView
+        android:id="@+id/noAccount_Textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Don't have account yet? Sign up here"
+        android:fontFamily="@font/calibri_regular"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        tools:ignore="HardcodedText" />
 
 
 

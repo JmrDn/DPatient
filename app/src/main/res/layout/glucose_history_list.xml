@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:id="@+id/highestGlucose_LinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/lightblue_bg"
+        >
+
+        <RelativeLayout
+            android:id="@+id/glucoseStatus_RelativeLayout"
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/high_glucose_status_color">
+
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginStart="15dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Glucose"
+                android:textColor="@color/black"
+                android:fontFamily="@font/calibribold"
+                android:textSize="18sp"
+                android:layout_marginTop="5dp"
+                tools:ignore="HardcodedText" />
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+                <TextView
+                    android:id="@+id/glucoseLevel_Textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="120"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/calibribold"
+                    android:textSize="30sp"
+                    android:layout_marginTop="-5dp"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="mg/dL"
+                    android:textColor="@color/black"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_toEndOf="@+id/glucoseLevel_Textview"
+                    android:fontFamily="@font/calibribold"
+                    android:textSize="15sp"
+                    android:layout_marginTop="-5dp"
+                    android:layout_marginStart="5dp"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:id="@+id/time_Textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="12:01 PM"
+                    android:fontFamily="@font/calibri_regular"
+                    android:textSize="15sp"
+                    android:textColor="@color/gray"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="10dp"
+                    tools:ignore="HardcodedText" />
+
+
+            </RelativeLayout>
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+</LinearLayout>

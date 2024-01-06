@@ -74,7 +74,7 @@
         android:id="@+id/glucoseLevel_Textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="210"
+        android:text="0"
         android:fontFamily="@font/calibribold"
         android:textColor="@color/black"
         android:layout_toStartOf="@+id/mgdL_Textview"
@@ -147,5 +147,12 @@
         android:textColor="#00997E"
         android:background="@drawable/secondary_background_button"/>
 
+    <com.github.mikephil.charting.charts.LineChart
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/viewHistory_Btn"
+        android:id="@+id/lineChart"/>
 
 </RelativeLayout>

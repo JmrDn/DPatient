@@ -146,10 +146,6 @@ public class EditProfile extends AppCompatActivity {
         String currentDate = simpleDateFormat.format(now);
         String fileName = patientId + "_" + currentDate;
 
-
-
-
-
         storageReference = FirebaseStorage.getInstance().getReference("images/"+fileName);
         storageReference.putFile(uri)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {

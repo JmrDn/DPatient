@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,54 +19,57 @@ import com.example.dpatient.model.GlucoseHistoryModel;
 import java.util.ArrayList;
 
 public class GlucoseHistoryAdapter extends RecyclerView.Adapter<GlucoseHistoryAdapter.MyViewHolder> {
-
+    ArrayList<GlucoseHistoryModel> list;
     Context context;
-    ArrayList <GlucoseHistoryModel> list;
 
-    public GlucoseHistoryAdapter(Context context, ArrayList<GlucoseHistoryModel> list) {
-        this.context = context;
+    public GlucoseHistoryAdapter(ArrayList<GlucoseHistoryModel> list, Context context) {
         this.list = list;
+        this.context = context;
     }
 
     @NonNull
     @Override
     public GlucoseHistoryAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
-        View view = layoutInflater.inflate(R.layout.glucose_history_recyclerview_list, parent, false);
-
-        return new GlucoseHistoryAdapter.MyViewHolder(view);
+        View view = LayoutInflater.from(context).inflate(R.layout.glucose_history_list, parent ,false);
+        return new MyViewHolder(view);
     }
 
-    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull GlucoseHistoryAdapter.MyViewHolder holder, int position) {
-        GlucoseHistoryModel glucoseHistoryModel = list.get(position);
-        holder.glucoseLevelTextview.setText(glucoseHistoryModel.getGlucoseLevel());
-        holder.dateTextview.setText(glucoseHistoryModel.getDate());
-        holder.timeTextview.setText(glucoseHistoryModel.getTime());
-        holder.glucoseLevel = Integer.parseInt(glucoseHistoryModel.getGlucoseLevel());
+        GlucoseHistoryModel model = list.get(position);
+        holder.glucoseLevel.setText(model.getGlucoseLevel());
+        holder.time.setText(model.getTime());
 
-        if (holder.glucoseLevel < 120){
-            int colorResource = ContextCompat.getColor(context,R.color.lowGlucoseColor);
-            holder.glucoseStatusCardview.setCardBackgroundColor(colorResource);
-            holder.glucoseLevelStatusTextview.setText("Low");
-        }
-       else if (holder.glucoseLevel >= 120 && holder.glucoseLevel <= 140){
-            int colorResource = ContextCompat.getColor(context,R.color.normalGlucoseColor);
-            holder.glucoseStatusCardview.setCardBackgroundColor(colorResource);
-            holder.glucoseLevelStatusTextview.setText("Normal");
-        }
-        else if (holder.glucoseLevel >= 140 && holder.glucoseLevel <= 199){
-            int colorResource = ContextCompat.getColor(context,R.color.preDiabeticGlucoseColor);
-            holder.glucoseStatusCardview.setCardBackgroundColor(colorResource);
-            holder.glucoseLevelStatusTextview.setText("Pre-Diabetic");
-        }
-        else if (holder.glucoseLevel >= 200){
-            int colorResource = ContextCompat.getColor(context,R.color.highGlucoseColor);
-            holder.glucoseStatusCardview.setCardBackgroundColor(colorResource);
-            holder.glucoseLevelStatusTextview.setText("High");
+        //Low glucose
+        if (Integer.parseInt(model.getGlucoseLevel()) < 60) {
+
+            holder.glucoseStatusBGColor.setBackgroundResource(R.drawable.low_glucose_status_color);
+
+
         }
 
+        //Normal glucose
+        else if (Integer.parseInt(model.getGlucoseLevel()) >= 60 && Integer.parseInt(model.getGlucoseLevel()) <= 140) {
+
+            holder.glucoseStatusBGColor.setBackgroundResource(R.drawable.normal_glucose_status_color);
+
+        }
+
+        // Pre-Diabetic
+        else if (Integer.parseInt(model.getGlucoseLevel()) >= 140 && Integer.parseInt(model.getGlucoseLevel()) <= 199) {
+
+            holder.glucoseStatusBGColor.setBackgroundResource(R.drawable.pre_diabetic_glucose_status_color);
+        }
+
+
+        //High glucose
+        else if (Integer.parseInt(model.getGlucoseLevel()) >= 200) {
+
+
+            holder.glucoseStatusBGColor.setBackgroundResource(R.drawable.high_glucose_status_color);
+
+
+        }
     }
 
     @Override
@@ -73,23 +77,15 @@ public class GlucoseHistoryAdapter extends RecyclerView.Adapter<GlucoseHistoryAd
         return list.size();
     }
 
-
     public class MyViewHolder extends RecyclerView.ViewHolder {
-
-        TextView glucoseLevelTextview,
-                dateTextview,
-                timeTextview,
-                glucoseLevelStatusTextview;
-        CardView glucoseStatusCardview;
-        int glucoseLevel;
+        TextView glucoseLevel, time;
+        RelativeLayout glucoseStatusBGColor;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            glucoseLevelTextview = itemView.findViewById(R.id.glucoseLevel_Textview);
-            dateTextview = itemView.findViewById(R.id.date_Textview);
-            timeTextview = itemView.findViewById(R.id.time_Textview);
-            glucoseStatusCardview = itemView.findViewById(R.id.glucoseLevelStatus_Cardview);
-            glucoseLevelStatusTextview = itemView.findViewById(R.id.glucoseLevelStatus_Textview);
+            glucoseLevel = itemView.findViewById(R.id.glucoseLevel_Textview);
+            time = itemView.findViewById(R.id.time_Textview);
+            glucoseStatusBGColor = itemView.findViewById(R.id.glucoseStatus_RelativeLayout);
         }
     }
 }

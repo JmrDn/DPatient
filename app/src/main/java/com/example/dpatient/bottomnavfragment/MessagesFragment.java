@@ -1,31 +1,22 @@
 package com.example.dpatient.bottomnavfragment;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.dpatient.Adapter.ChatListAdapter;
-import com.example.dpatient.ChatRoom;
-import com.example.dpatient.DoctorChatRoom;
-import com.example.dpatient.Firebase.FirebaseUtil;
+import com.example.dpatient.Utils.FirebaseUtil;
 import com.example.dpatient.R;
 import com.example.dpatient.model.ChatRoomModel;
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.firebase.Timestamp;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 import org.imaginativeworld.oopsnointernet.callbacks.ConnectionCallback;

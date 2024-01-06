@@ -13,7 +13,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.dpatient.Adapter.ChatRoomAdapter;
-import com.example.dpatient.Firebase.FirebaseUtil;
+import com.example.dpatient.Utils.FirebaseUtil;
 import com.example.dpatient.model.ChatRoomMessagesModel;
 import com.example.dpatient.model.ChatRoomModel;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;

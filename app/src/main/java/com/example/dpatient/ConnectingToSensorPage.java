@@ -15,10 +15,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
-import com.example.dpatient.Firebase.FirebaseUtil;
+import com.example.dpatient.Utils.FirebaseUtil;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -41,6 +40,7 @@ public class ConnectingToSensorPage extends AppCompatActivity {
     EditText sensorIdInput;
     Dialog dialog;
     ProgressDialog progressDialog;
+    private UserDetails userDetails;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -55,23 +55,35 @@ public class ConnectingToSensorPage extends AppCompatActivity {
 
 
 
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Connecting...");
+        if (getApplicationContext() != null){
+
+
+            progressDialog = new ProgressDialog(ConnectingToSensorPage.this);
+            progressDialog.setTitle("Connecting...");
+
+            userDetails = new UserDetails(getApplicationContext());
+
+            boolean isConnected = userDetails.isAccountConnectedToSensor();
+
+            if (!isConnected){
+                pairBtn.setOnClickListener(v ->{
+                    startProgressDialog(true);
+                    String sensorIdInputString = sensorIdInput.getText().toString();
+                    if (sensorIdInputString.isEmpty()){
+                        sensorIdInput.setError("Enter sensor Id");
+                        startProgressDialog(false);
+                    }
+                    else {
+                        startProgressDialog(true);
+                        connectingToSensorMethod(sensorIdInputString);
+
+                    }
+                });
+            }
+        }
 
         noInternetDialog();
-        pairBtn.setOnClickListener(v ->{
-            startProgressDialog(true);
-            String sensorIdInputString = sensorIdInput.getText().toString();
-            if (sensorIdInputString.isEmpty()){
-                sensorIdInput.setError("Enter sensor Id");
-                startProgressDialog(false);
-            }
-            else {
-                startProgressDialog(true);
-               connectingToSensorMethod(sensorIdInputString);
 
-            }
-        });
 
 
         backBtn.setOnClickListener(v -> {
@@ -82,96 +94,110 @@ public class ConnectingToSensorPage extends AppCompatActivity {
 
     public void startProgressDialog(Boolean visible){
 
-
         if(visible){
             progressDialog.show();
         }
         else {
-            if (progressDialog != null && progressDialog.isShowing()){
+
+            progressDialog.dismiss();
+
+            if(progressDialog.isShowing() && progressDialog != null){
                 progressDialog.dismiss();
             }
 
         }
 
+
+
     }
     void connectingToSensorMethod(String sensorIdInputString){
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child(sensorIdInputString);
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        if (getApplicationContext() != null){
+            userDetails = new UserDetails(ConnectingToSensorPage.this);
 
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child(sensorIdInputString);
+            databaseReference.addValueEventListener(new ValueEventListener() {
 
-                if (snapshot.exists()){
-                    startProgressDialog(true);
-                    if (Objects.requireNonNull(snapshot.child("isConnected").getValue()).equals(true)){
-                        startProgressDialog(false);
-                        sensorIdInput.setError("This sensor is already connected to other account");
-                        sensorIdInput.setText("");
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
 
+                    if (snapshot.exists()){
+                        if (Objects.requireNonNull(snapshot.child("isConnected").getValue()).equals(true)){
+                            startProgressDialog(false);
+                            sensorIdInput.setError("This sensor is already connected to other account");
+                            sensorIdInput.setText("");
+
+                        }
+                        else {
+
+                            startProgressDialog(false);
+                            //You are now connected to sensor
+                            connectedToSensorDialog();
+
+
+                            //Get the sensorID
+                            String sensorId = snapshot.child("sensorId").getValue().toString();
+                            userDetails.setAccountIsConnectedToSensor(true);
+                            userDetails.setSensorId(sensorId);
+
+                            //Calling patientId to update the patient connection status to sensor
+                            FirebaseFirestore.getInstance().collection("UsersUID").document(FirebaseUtil.currentUserUID())
+                                    .get()
+                                    .addOnCompleteListener(task ->{
+                                        if (task.isSuccessful()){
+                                            DocumentSnapshot document = task.getResult();
+                                            if (document.exists()){
+                                                String patientId = document.getString("patientID");
+
+
+                                                updatePatientConnectionStatusToSensor(patientId, sensorId);
+                                                HashMap hashMap = new HashMap();
+                                                //Updating the connection status of Sensor and where is it connected
+                                                hashMap.put("isConnected", true);
+                                                hashMap.put("isConnectedTo", patientId);
+
+
+                                                databaseReference.updateChildren(hashMap).addOnSuccessListener(new OnSuccessListener() {
+                                                    @Override
+                                                    public void onSuccess(Object o) {
+                                                        Log.d("TAG", "sensor is successfully connected");
+                                                    }
+                                                });
+
+                                            }
+                                        }
+                                        else {
+                                            Log.d("TAG", "task is unsuccessful");
+                                        }
+                                    });
+
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    startProgressDialog(false);
+
+                                    startActivity(new Intent(getApplicationContext(), Homepage1.class));
+                                    finish();
+                                }
+                            },5000);
+
+
+                        }
                     }
                     else {
-
-                        //You are now connected to sensor
-
                         startProgressDialog(false);
-                        connectedToSensorDialog();
-                        sensorIdInput.setText("");
-
-                        //Get the sensorID
-                        String sensorId = snapshot.child("sensorId").getValue().toString();
-
-                        //Calling patientId to update the patient connection status to sensor
-                        FirebaseFirestore.getInstance().collection("UsersUID").document(FirebaseUtil.currentUserUID())
-                                .get()
-                                .addOnCompleteListener(task ->{
-                                    if (task.isSuccessful()){
-                                        DocumentSnapshot document = task.getResult();
-                                        if (document.exists()){
-                                            String patientId = document.getString("patientID");
-
-
-                                            updatePatientConnectionStatusToSensor(patientId, sensorId);
-                                            HashMap hashMap = new HashMap();
-
-                                            //Updating the connection status of Sensor and where is it connected
-                                            hashMap.put("isConnected", true);
-                                            hashMap.put("isConnectedTo", patientId );
-                                            databaseReference.updateChildren(hashMap).addOnSuccessListener(new OnSuccessListener() {
-                                                @Override
-                                                public void onSuccess(Object o) {
-                                                    Log.d("TAG", "sensor is successfully connected");
-                                                }
-                                            });
-
-                                        }
-                                    }
-                                    else {
-                                        Log.d("TAG", "task is unsuccessful");
-                                    }
-                                });
-
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                startProgressDialog(false);
-
-                                startActivity(new Intent(getApplicationContext(), Homepage1.class));
-                            }
-                        },5000);
+                        //Set up error when the user entered a wrong sensor ID
+                        sensorIdInput.setError("Enter valid sensor ID");
                     }
                 }
-                else {
-                    startProgressDialog(false);
-                    //Set up error when the user entered a wrong sensor ID
-                    sensorIdInput.setError("Enter valid sensor ID");
-                }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("TAG", error.getMessage());
-            }
-        });
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Log.d("TAG", error.getMessage());
+                }
+            });
+
+        }
+
     }
     void connectedToSensorDialog(){
         dialog = new Dialog(ConnectingToSensorPage.this);
@@ -186,6 +212,7 @@ public class ConnectingToSensorPage extends AppCompatActivity {
 
     }
     void updatePatientConnectionStatusToSensor(String patientId, String sensorId){
+
 
         HashMap <String, Object>hashMap = new HashMap();
         hashMap.put("isConnectedToSensor", true);

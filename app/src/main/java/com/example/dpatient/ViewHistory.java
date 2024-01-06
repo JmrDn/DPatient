@@ -13,11 +13,10 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.dpatient.Adapter.GlucoseHistoryAdapter;
-import com.example.dpatient.Firebase.FirebaseUtil;
+import com.example.dpatient.Utils.FirebaseUtil;
 import com.example.dpatient.model.GlucoseHistoryModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -30,7 +29,6 @@ import org.imaginativeworld.oopsnointernet.dialogs.pendulum.DialogPropertiesPend
 import org.imaginativeworld.oopsnointernet.dialogs.pendulum.NoInternetDialogPendulum;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class ViewHistory extends AppCompatActivity {
 
@@ -55,7 +53,7 @@ public class ViewHistory extends AppCompatActivity {
             onBackPressed();
         });
 
-        setUpGlucoseLevelHistoryRecyclerview();
+//        setUpGlucoseLevelHistoryRecyclerview();
         noInternetDialog();
 
 
@@ -86,68 +84,72 @@ public class ViewHistory extends AppCompatActivity {
 
         builder.build();
     }
-     void setUpGlucoseLevelHistoryRecyclerview() {
-        list = new ArrayList<>();
-        myAdapter = new GlucoseHistoryAdapter(getApplicationContext(), list);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        linearLayoutManager.setReverseLayout(true);
-        linearLayoutManager.setStackFromEnd(true);
-        recyclerView.setLayoutManager(linearLayoutManager);
-
-
-
-         FirebaseUtil.currentUserDetails()
-                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                     @Override
-                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                         if (task.isSuccessful()){
-                             DocumentSnapshot document = task.getResult();
-                             if (document.exists()){
-                                 patientId = document.getString("patientID");
-
-                                 FirebaseFirestore.getInstance().collection("Users").document(patientId)
-                                         .collection("glucose_Level_History")
-                                         .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                                             @SuppressLint("NotifyDataSetChanged")
-                                             @Override
-                                             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                                                 if (error != null){
-                                                     Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
-                                                 }
-                                                 else {
-                                                     list.clear();
-
-                                                     for (QueryDocumentSnapshot documentSnapshot: value){
-                                                         if (documentSnapshot.exists()){
-                                                             list.add(new GlucoseHistoryModel(documentSnapshot.getString("glucose_level"),
-                                                                     documentSnapshot.getString("date"),
-                                                                     documentSnapshot.getString("time")));
-
-                                                             recyclerView.setAdapter(myAdapter);
-                                                             myAdapter.notifyDataSetChanged();
-                                                         }
-                                                     }
-                                                 }
-                                             }
-                                         });
-
-                             }
-                         }
-                         else {
-                             Log.d("TAG", "no such document");
-                         }
-
-
-                     }
-                 });
-
-
-
-
-
-
-
-    }
+//     void setUpGlucoseLevelHistoryRecyclerview() {
+//        list = new ArrayList<>();
+//        myAdapter = new GlucoseHistoryAdapter(getApplicationContext(), list);
+//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+//        linearLayoutManager.setReverseLayout(true);
+//        linearLayoutManager.setStackFromEnd(true);
+//        recyclerView.setLayoutManager(linearLayoutManager);
+//
+//
+//
+//         FirebaseUtil.currentUserDetails()
+//                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                     @Override
+//                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                         if (task.isSuccessful()){
+//                             DocumentSnapshot document = task.getResult();
+//                             if (document.exists()){
+//                                 patientId = document.getString("patientID");
+//
+//                                 FirebaseFirestore.getInstance().collection("Users").document(patientId)
+//                                         .collection("glucose_Level_History")
+//                                         .addSnapshotListener(new EventListener<QuerySnapshot>() {
+//                                             @SuppressLint("NotifyDataSetChanged")
+//                                             @Override
+//                                             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+//                                                 if (error != null){
+//                                                     Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+//                                                 }
+//                                                 else {
+//                                                     list.clear();
+//
+//                                                     for (QueryDocumentSnapshot documentSnapshot: value){
+//                                                         if (documentSnapshot.exists()){
+//                                                             String glucoseLevel = documentSnapshot.getString("glucose_level");
+//                                                             if (!glucoseLevel.equals("0")){
+//                                                                 list.add(new GlucoseHistoryModel(documentSnapshot.getString("glucose_level"),
+//                                                                         documentSnapshot.getString("date"),
+//                                                                         documentSnapshot.getString("time")));
+//
+//                                                                 recyclerView.setAdapter(myAdapter);
+//                                                                 myAdapter.notifyDataSetChanged();
+//                                                             }
+//
+//                                                         }
+//                                                     }
+//                                                 }
+//                                             }
+//                                         });
+//
+//                             }
+//                         }
+//                         else {
+//                             Log.d("TAG", "no such document");
+//                         }
+//
+//
+//                     }
+//                 });
+//
+//
+//
+//
+//
+//
+//
+//    }
 
 
 }
