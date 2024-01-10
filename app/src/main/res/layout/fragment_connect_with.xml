@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FAFAFA"
+    tools:context=".bottomnavfragment.ConnectWithFragment">
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toolbar"
+        android:background="@color/white">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Associated"
+                android:fontFamily="@font/calibribold"
+                android:textSize="25sp"
+                android:textColor="@color/black"
+                android:layout_marginStart="10dp"
+                tools:ignore="HardcodedText" />
+        </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/calibri_regular"
+            android:text="Hello"
+            android:textSize="25sp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            android:textColor="@color/black"
+            tools:ignore="HardcodedText" />
+        <TextView
+            android:id="@+id/name_Textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Jomari"
+            android:fontFamily="@font/calibribold"
+            android:textSize="35sp"
+            android:layout_marginTop="-5dp"
+            android:textColor="@color/black"
+            android:layout_marginStart="20dp"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="See the medical professional who is associated with you."
+            android:fontFamily="@font/calibri_regular"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:textColor="@color/black"
+            android:layout_marginBottom="20dp"
+            android:textAlignment="textStart"
+            android:textSize="20sp"
+            tools:ignore="HardcodedText" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp">
+
+        <FrameLayout
+            android:id="@+id/noHealthCare_Framelayout"
+            android:layout_width="match_parent"
+            android:layout_height="200dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Start associating with your healthcare"
+                    android:fontFamily="@font/calibri_regular"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:layout_centerInParent="true"
+                    tools:ignore="HardcodedText" />
+            </RelativeLayout>
+        </FrameLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/recyclerview"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"/>
+    </RelativeLayout>
+
+
+
+</LinearLayout>

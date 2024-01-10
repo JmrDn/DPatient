@@ -40,18 +40,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:id="@+id/profilePic_Layout">
-                <ImageView
+
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/profilePicture_Imageview"
                     android:layout_width="65dp"
                     android:layout_height="65dp"
-                    android:src="@drawable/profile_pic"
-                    android:background="@drawable/circular_bg"
-                    android:padding="4dp"
-                    android:backgroundTint="@color/patient_color_bg"
-                    app:tint="@color/white"
-                    android:id="@+id/profile_pic_image_view"
+                    app:srcCompat="@drawable/profile_pic"
+                    android:background="#FAFAFA"
+                    app:strokeWidth="3dp"
+                    android:padding="3dp"
+                    app:strokeColor="@color/patient_color_bg"
+                    app:shapeAppearance="@style/circular"
                     android:layout_centerVertical="true"
                     android:layout_alignParentStart="true"
-                    android:layout_marginStart="20dp"/>
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="100dp"
+                    />
 
             </RelativeLayout>
 

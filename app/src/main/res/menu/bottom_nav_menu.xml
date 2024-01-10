@@ -11,6 +11,12 @@
         android:icon="@drawable/reportsicon"
         />
 
+    <item
+        android:id="@+id/ConnectedWithNav"
+        android:title="Associated"
+        android:icon="@drawable/connected_with"
+        />
+
     <item android:id="@+id/MessageNav"
         android:title="Message"
         android:icon="@drawable/messageicon1"

@@ -115,7 +115,7 @@ public class ConnectingToSensorPage extends AppCompatActivity {
             userDetails = new UserDetails(ConnectingToSensorPage.this);
 
             DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child(sensorIdInputString);
-            databaseReference.addValueEventListener(new ValueEventListener() {
+            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
 
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {

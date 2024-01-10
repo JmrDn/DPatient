@@ -255,7 +255,7 @@ public class HomeFragment extends Fragment {
 
                                        }
 
-                                       LineDataSet lineDataSet = new LineDataSet(entry, "Heart Rate");
+                                       LineDataSet lineDataSet = new LineDataSet(entry, "Glucose level");
                                        lineDataSet.setDrawCircleHole(false);
                                        lineDataSet.setDrawCircles(false);
                                        if(getContext() != null)
@@ -689,7 +689,6 @@ public class HomeFragment extends Fragment {
                         });
             }
         }
-
 
     }
 

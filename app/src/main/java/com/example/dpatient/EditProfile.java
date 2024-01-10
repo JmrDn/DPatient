@@ -55,12 +55,7 @@ public class EditProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
 
-        profilePicImageview = findViewById(R.id.profilePicture_Imageview);
-        selectImageBtn = findViewById(R.id.selectImage_Btn);
-        uploadBtn = findViewById(R.id.save_Btn);
-        cancelBtn = findViewById(R.id.cancel_Btn);
-        backBtn = findViewById(R.id.back_Btn);
-        buttonLayout = findViewById(R.id.button_Layout);
+        initWidgets();
 
         buttonLayout.setVisibility(View.INVISIBLE);
 
@@ -88,6 +83,15 @@ public class EditProfile extends AppCompatActivity {
                     .start();
 
         });
+    }
+
+    private void initWidgets() {
+        profilePicImageview = findViewById(R.id.profilePicture_Imageview);
+        selectImageBtn = findViewById(R.id.selectImage_Btn);
+        uploadBtn = findViewById(R.id.save_Btn);
+        cancelBtn = findViewById(R.id.cancel_Btn);
+        backBtn = findViewById(R.id.back_Btn);
+        buttonLayout = findViewById(R.id.button_Layout);
     }
 
     private void setProfilePicture() {

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp"
+    android:layout_marginTop="2.5dp"
+    android:layout_marginBottom="2.5dp">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/profile_pic_image_view"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="30dp"
+        android:padding="4dp"
+        app:shapeAppearance="@style/circular"
+        app:srcCompat="@drawable/profile_pic"
+        app:strokeColor="@color/patient_color_bg"
+        app:strokeWidth="2dp" />
+
+
+    <TextView
+        android:id="@+id/name_Textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dr. Alvin"
+        android:fontFamily="@font/calibribold"
+        android:textSize="30sp"
+        android:textColor="@color/black"
+        android:layout_toEndOf="@id/profile_pic_image_view"
+         android:layout_centerVertical="true"
+        android:layout_marginEnd="20dp"
+        tools:ignore="HardcodedText" />
+
+    <TextView
+        android:id="@+id/dateAndTimeConnected_Textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="just now"
+        android:fontFamily="@font/calibri_regular"
+        android:textSize="15sp"
+        android:textColor="@color/gray"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="10dp"
+        tools:ignore="HardcodedText" />
+
+
+
+
+</RelativeLayout>

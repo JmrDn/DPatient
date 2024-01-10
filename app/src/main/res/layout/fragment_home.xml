@@ -65,7 +65,6 @@
                android:fontFamily="@font/calibribold"/>
 
 
-
            <com.google.android.material.imageview.ShapeableImageView
                android:id="@+id/profile_pic_image_view"
                android:layout_width="60dp"
@@ -73,12 +72,11 @@
                android:layout_alignParentEnd="true"
                android:layout_centerInParent="true"
                android:layout_marginEnd="30dp"
-               app:shapeAppearance="@style/circular"
-               app:strokeWidth="2dp"
-               app:strokeColor="@color/patient_color_bg"
                android:padding="4dp"
+               app:shapeAppearance="@style/circular"
                app:srcCompat="@drawable/profile_pic"
-               />
+               app:strokeColor="@color/patient_color_bg"
+               app:strokeWidth="2dp" />
 
        </RelativeLayout>
 

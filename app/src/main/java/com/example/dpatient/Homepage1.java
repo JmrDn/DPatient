@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.dpatient.Utils.FirebaseUtil;
+import com.example.dpatient.bottomnavfragment.ConnectWithFragment;
 import com.example.dpatient.bottomnavfragment.HomeFragment;
 import com.example.dpatient.bottomnavfragment.MessagesFragment;
 import com.example.dpatient.bottomnavfragment.ReportsFragment;
@@ -80,7 +81,11 @@ public class Homepage1 extends AppCompatActivity implements NavigationBarView.On
             isHomeFragmentActive = false;
             selectedFragment = new ReportsFragment();
         }
-        else if (itemId == R.id.MessageNav){
+        else if(itemId == R.id.ConnectedWithNav){
+            isHomeFragmentActive = false;
+            selectedFragment = new ConnectWithFragment();
+        }
+        else if (itemId == R.id.MessageNav) {
             isHomeFragmentActive = false;
             selectedFragment = new MessagesFragment();
         }

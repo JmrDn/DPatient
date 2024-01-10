@@ -65,6 +65,7 @@
             android:layout_marginBottom="10dp"
             android:layout_marginEnd="80dp"
             android:hint="Enter message"
+            android:singleLine="true"
             android:paddingStart="20dp"
             tools:ignore="HardcodedText,RtlSymmetry" />
         <ImageButton
