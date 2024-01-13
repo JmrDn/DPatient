@@ -17,7 +17,7 @@
         android:layout_width="111dp"
         android:layout_height="100dp"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="100dp"
         android:src="@drawable/patientappicon" />
 
     <TextView
@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:textSize="28sp"
         android:fontFamily="@font/titilliumwebbold"
-        android:text="@string/patient"
+        android:text="Glumon"
         android:textColor="@color/patientTxt"
         android:layout_below="@+id/patientAppIcon_ImgView"
         android:layout_marginStart="35dp"/>

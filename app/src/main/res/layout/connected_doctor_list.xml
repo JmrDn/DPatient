@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="120dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:layout_marginStart="10dp"
@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:text="Dr. Alvin"
         android:fontFamily="@font/calibribold"
-        android:textSize="30sp"
+        android:textSize="25sp"
         android:textColor="@color/black"
         android:layout_toEndOf="@id/profile_pic_image_view"
          android:layout_centerVertical="true"
@@ -51,6 +51,19 @@
         android:layout_marginEnd="20dp"
         android:layout_marginTop="10dp"
         tools:ignore="HardcodedText" />
+
+    <ImageButton
+        android:id="@+id/disconnect_Button"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/disconnect_icon"
+        android:background="@android:color/transparent"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"/>
+
+
 
 
 

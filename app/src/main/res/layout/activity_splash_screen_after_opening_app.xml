@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="35sp"
-        android:text="Patient App"
+        android:text="Glumon"
         android:layout_below="@+id/logo"
         android:layout_centerHorizontal="true"
         android:fontFamily="@font/calibribold"

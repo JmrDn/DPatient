@@ -63,14 +63,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="See the medical professional who is associated with you."
+            android:text="View the medical professional who is associated with you."
             android:fontFamily="@font/calibri_regular"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:textColor="@color/black"
             android:layout_marginBottom="20dp"
             android:textAlignment="textStart"
-            android:textSize="20sp"
+            android:textSize="18sp"
             tools:ignore="HardcodedText" />
     </LinearLayout>
 
