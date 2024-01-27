@@ -26,6 +26,7 @@
         app:strokeWidth="2dp" />
 
 
+
     <TextView
         android:id="@+id/name_Textview"
         android:layout_width="wrap_content"
@@ -53,6 +54,16 @@
         tools:ignore="HardcodedText" />
 
     <ImageButton
+        android:id="@+id/message_Button"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/message_doctor_icon"
+        android:background="@android:color/transparent"
+        android:layout_toStartOf="@id/disconnect_Button"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"/>
+    <ImageButton
         android:id="@+id/disconnect_Button"
         android:layout_width="24dp"
         android:layout_height="24dp"
@@ -61,7 +72,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"/>
+        android:layout_marginBottom="10dp"/>
 
 
 

@@ -210,7 +210,7 @@ public class SignUpStep2 extends AppCompatActivity {
                         else{
                             createAccBtn.setVisibility(View.VISIBLE);
                             createAccPB.setVisibility(View.GONE);
-                            Toast.makeText(getApplicationContext(), "Sign in failed", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Sign up failed " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                         }
                     }
                 });

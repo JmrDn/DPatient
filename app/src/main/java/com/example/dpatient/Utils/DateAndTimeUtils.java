@@ -41,6 +41,10 @@ public class DateAndTimeUtils {
         Duration duration = Duration.between(yourDate, now);
 
         long minutes = duration.toMinutes();
+        long hours = minutes / 60;
+        long day = hours / 24;
+        long week = day / 7;
+
 
         if (minutes == 0) {
             return "just now";
@@ -50,9 +54,20 @@ public class DateAndTimeUtils {
             return minutes + " minutes ago";
         } else if (minutes < 120) {
             return "1 hour ago";
-        } else {
-            long hours = minutes / 60;
+        } else if (hours > 1 && hours < 25) {
             return hours + " hours ago";
+        }
+        else if (day == 1){
+            return "1 day ago";
+        }
+        else if (day > 1 && day <= 7){
+            return day + " days ago";
+        }
+        else if (week == 1){
+            return "1 week ago";
+        }
+        else{
+            return  week + "weeks ago";
         }
     }
 

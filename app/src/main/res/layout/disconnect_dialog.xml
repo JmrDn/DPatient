@@ -38,7 +38,8 @@
             android:textColor="@color/white"
             android:layout_margin="20dp"
             android:elevation="5dp"
-            android:background="@drawable/primary_button"/>
+            android:background="@drawable/primary_button"
+            tools:ignore="HardcodedText" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/no_Btn"

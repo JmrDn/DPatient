@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.dpatient.ChatRoom;
 import com.example.dpatient.Homepage1;
 import com.example.dpatient.R;
 import com.example.dpatient.UserDetails;
@@ -89,6 +90,13 @@ public class ConnectedWithAdapter extends RecyclerView.Adapter<ConnectedWithAdap
 
         holder.disconnectBtn.setOnClickListener(v->{
             showDisconnectDialog(userIdString, doctorName);
+        });
+
+        holder.messageBtn.setOnClickListener(v->{
+            Intent intent = new Intent(context.getApplicationContext(), ChatRoom.class);
+            intent.putExtra("userUID", userIdString);
+            intent.putExtra("name", doctorName);
+            context.startActivity(intent);
         });
 
 
@@ -179,7 +187,7 @@ public class ConnectedWithAdapter extends RecyclerView.Adapter<ConnectedWithAdap
         String userId;
         String profilePic;
         TextView dateAndTime;
-        ImageButton disconnectBtn;
+        ImageButton disconnectBtn, messageBtn;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -188,6 +196,7 @@ public class ConnectedWithAdapter extends RecyclerView.Adapter<ConnectedWithAdap
             imageview = itemView.findViewById(R.id.profile_pic_image_view);
             dateAndTime = itemView.findViewById(R.id.dateAndTimeConnected_Textview);
             disconnectBtn = itemView.findViewById(R.id.disconnect_Button);
+            messageBtn = itemView.findViewById(R.id.message_Button);
         }
     }
 }

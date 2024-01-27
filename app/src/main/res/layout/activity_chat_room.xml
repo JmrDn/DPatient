@@ -6,41 +6,47 @@
     android:layout_height="match_parent"
     tools:context=".ChatRoom">
 
-    <RelativeLayout
+    <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:background="@color/white"
-        android:padding="10dp"
-        android:id="@+id/toolBar_Layout">
-
-
-
-        <ImageButton
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:src="@drawable/arrowback"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:layout_marginStart="10dp"
-            android:layout_centerVertical="true"
-            android:id="@+id/back_Btn"/>
-
-        <TextView
-            android:id="@+id/name_TxtView"
-            android:layout_width="wrap_content"
+        android:id="@+id/toolbar"
+        android:background="@color/white">
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:fontFamily="@font/calibribold"
-            android:text="Felisco"
-            android:textColor="@color/black"
-            android:textSize="22sp"
-            tools:ignore="HardcodedText" />
+            android:layout_alignParentTop="true"
+            android:background="@color/white"
+            android:padding="10dp"
+            android:id="@+id/toolBar_Layout">
 
-    </RelativeLayout>
+
+
+            <ImageButton
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/arrowback"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:layout_centerVertical="true"
+                android:id="@+id/back_Btn"/>
+
+            <TextView
+                android:id="@+id/name_TxtView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/calibribold"
+                android:text="Felisco"
+                android:textColor="@color/black"
+                android:textSize="22sp"
+                tools:ignore="HardcodedText" />
+
+        </RelativeLayout>
+
+    </androidx.appcompat.widget.Toolbar>
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolBar_Layout"
+        android:layout_below="@id/toolbar"
         android:layout_marginTop="10dp"
         android:id="@+id/chatMessages_Recyclerview"
         android:layout_marginBottom="5dp"

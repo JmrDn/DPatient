@@ -111,6 +111,7 @@ public class SensorPage extends AppCompatActivity {
                             //Set up sensor case to false
                             databaseReference.child("isConnected").setValue(false);
                             databaseReference.child("isConnectedTo").setValue(null);
+                            databaseReference.child("glucose_Level").setValue(0);
 
                             //Set up patient case to false
                             HashMap<String, Object> updateConnectedToSensor = new HashMap<>();

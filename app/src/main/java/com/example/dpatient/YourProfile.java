@@ -3,9 +3,11 @@ package com.example.dpatient;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,6 +15,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -48,6 +51,8 @@ public class YourProfile extends AppCompatActivity {
     StorageReference storageReference;
     private  UserDetails userDetails;
     private TextView patientIdTV;
+    private Dialog logoutDialog;
+    private AppCompatButton yesBtn, noBtn;
 
 
 
@@ -71,13 +76,32 @@ public class YourProfile extends AppCompatActivity {
         });
 
         logOutBtn.setOnClickListener(view -> {
+
             if (getApplicationContext() != null)
                 userDetails = new UserDetails(getApplicationContext());
 
-            userDetails.logout();
-            FirebaseAuth.getInstance().signOut();
-            Toast.makeText(getApplicationContext(),"Log out successfully", Toast.LENGTH_LONG).show();
-            startActivity(new Intent(getApplicationContext(), Login.class));
+            logoutDialog = new Dialog(this);
+            logoutDialog.setContentView(R.layout.logout_dialog_layout);
+            logoutDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            logoutDialog.setCancelable(false);
+            logoutDialog.show();
+
+            yesBtn = logoutDialog.findViewById(R.id.yes_Btn);
+            noBtn = logoutDialog.findViewById(R.id.no_Btn);
+
+            yesBtn.setOnClickListener(v->{
+                userDetails.logout();
+                FirebaseAuth.getInstance().signOut();
+                Toast.makeText(getApplicationContext(),"Log out successfully", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(getApplicationContext(), Login.class));
+                logoutDialog.dismiss();
+            });
+
+            noBtn.setOnClickListener(v->{
+                logoutDialog.dismiss();
+            });
+
+
 
         });
 

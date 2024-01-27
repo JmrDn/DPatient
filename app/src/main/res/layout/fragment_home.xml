@@ -103,6 +103,18 @@
                 tools:ignore="HardcodedText" />
 
            <TextView
+               android:id="@+id/fasting_Textview"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginStart="20dp"
+               android:text=""
+               android:layout_below="@id/glucose_Textview"
+               android:fontFamily="@font/calibri_regular"
+               android:textSize="30sp"
+               android:textColor="@color/black"
+               tools:ignore="HardcodedText" />
+
+           <TextView
                android:id="@+id/time_Textview"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
@@ -119,7 +131,7 @@
                android:id="@+id/glucoseBG_Layout"
                android:layout_width="match_parent"
                android:layout_height="100dp"
-               android:layout_below="@id/glucose_Textview"
+               android:layout_below="@id/fasting_Textview"
                android:layout_marginStart="20dp"
                android:layout_marginEnd="20dp"
                android:layout_marginTop="10dp"

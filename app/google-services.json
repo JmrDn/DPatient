@@ -1,33 +1,13 @@
 {
   "project_info": {
-    "project_number": "167408267820",
-    "firebase_url": "https://diabetes-monitoring-app-25174-default-rtdb.firebaseio.com",
-    "project_id": "diabetes-monitoring-app-25174",
-    "storage_bucket": "diabetes-monitoring-app-25174.appspot.com"
+    "project_number": "762697323150",
+    "project_id": "glumon-6d488",
+    "storage_bucket": "glumon-6d488.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:167408267820:android:b8341a10ffe1a1974f1789",
-        "android_client_info": {
-          "package_name": "com.example.docapp"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyC-mwQc_gu9bfWr-vwRhb84qf445ng4zmg"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:167408267820:android:17c5f099fa051d7e4f1789",
+        "mobilesdk_app_id": "1:762697323150:android:62368c7c8333143f746fdf",
         "android_client_info": {
           "package_name": "com.example.dpatient"
         }
@@ -35,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyC-mwQc_gu9bfWr-vwRhb84qf445ng4zmg"
+          "current_key": "AIzaSyBtptCGTjYToRuHiTQ-I7NUZSphHQfUhE8"
         }
       ],
       "services": {

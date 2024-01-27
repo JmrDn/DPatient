@@ -121,13 +121,26 @@ public class Login extends AppCompatActivity {
                                         userDetails.setEmail(email);
                                         userDetails.setPatientId(patientId);
 
-                                        if(documentSnapshot.contains("isConnectedTo") && documentSnapshot.contains("isConnectedToSensor")){
-                                            String sensorId = documentSnapshot.getString("isConnectedTo");
-                                            boolean isConnected = documentSnapshot.getBoolean("isConnectedToSensor");
+                                       FirebaseFirestore.getInstance().collection("Users")
+                                               .document(patientId)
+                                               .get()
+                                               .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                   @Override
+                                                   public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                       if (task.isSuccessful()){
+                                                           DocumentSnapshot documentSnapshot1 = task.getResult();
 
-                                            userDetails.setAccountIsConnectedToSensor(isConnected);
-                                            userDetails.setSensorId(sensorId);
-                                        }
+                                                           if(documentSnapshot1.contains("isConnectedTo") &&
+                                                                   documentSnapshot1.contains("isConnectedToSensor")){
+                                                               String sensorId = documentSnapshot1.getString("isConnectedTo");
+                                                               boolean isConnected = documentSnapshot1.getBoolean("isConnectedToSensor");
+
+                                                               userDetails.setAccountIsConnectedToSensor(isConnected);
+                                                               userDetails.setSensorId(sensorId);
+                                                           }
+                                                       }
+                                                   }
+                                               });
 
                                     }
                                 }
@@ -199,6 +212,7 @@ public class Login extends AppCompatActivity {
                                     new Handler().postDelayed(new Runnable() {
                                         @Override
                                         public void run() {
+
                                             Toast.makeText(getApplicationContext(),"Sign in successfully", Toast.LENGTH_LONG).show();
                                             startActivity(new Intent(getApplicationContext(), Homepage1.class));
                                         }
@@ -289,9 +303,57 @@ public class Login extends AppCompatActivity {
     protected void onStart(){
         super.onStart();
 
-        if (firebaseAuth.getCurrentUser()!= null){
-            finish();
-            startActivity(new Intent(getApplicationContext(), SplashScreenAfterOpeningApp.class));
+        if(getApplicationContext() != null){
+            userDetails = new UserDetails(getApplicationContext());
+
+            if(firebaseAuth.getCurrentUser() != null){
+
+                FirebaseFirestore.getInstance().collection("UsersUID").document(firebaseAuth.getUid())
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if(task.isSuccessful()){
+                                    DocumentSnapshot documentSnapshot = task.getResult();
+                                    if(documentSnapshot.exists()){
+                                        String patientId = documentSnapshot.getString("patientID");
+                                        String name = documentSnapshot.getString("fullName");
+                                        String email = documentSnapshot.getString("email");
+
+
+                                        userDetails.setName(name);
+                                        userDetails.setEmail(email);
+                                        userDetails.setPatientId(patientId);
+
+                                        FirebaseFirestore.getInstance().collection("Users")
+                                                .document(patientId)
+                                                .get()
+                                                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                        if (task.isSuccessful()){
+                                                            DocumentSnapshot documentSnapshot1 = task.getResult();
+
+                                                            if(documentSnapshot1.contains("isConnectedTo") &&
+                                                                    documentSnapshot1.contains("isConnectedToSensor")){
+                                                                String sensorId = documentSnapshot1.getString("isConnectedTo");
+                                                                boolean isConnected = documentSnapshot1.getBoolean("isConnectedToSensor");
+
+                                                                userDetails.setAccountIsConnectedToSensor(isConnected);
+                                                                userDetails.setSensorId(sensorId);
+                                                            }
+                                                        }
+                                                    }
+                                                });
+
+                                    }
+                                }
+                            }
+                        });
+                finish();
+                startActivity(new Intent(getApplicationContext(), SplashScreenAfterOpeningApp.class));
+            }
         }
+
     }
 }

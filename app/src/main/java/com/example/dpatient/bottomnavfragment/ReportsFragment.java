@@ -154,6 +154,7 @@ public class ReportsFragment extends Fragment implements CalendarAdapter.OnItemL
                                 QuerySnapshot querySnapshot = task.getResult();
                                 if (!querySnapshot.isEmpty() && querySnapshot != null){
                                     String previousTime = "";
+                                    String previousGlucoseLevel = "";
                                     list.clear();
 
                                     for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
@@ -162,11 +163,14 @@ public class ReportsFragment extends Fragment implements CalendarAdapter.OnItemL
                                             String glucoseLevel = documentSnapshot.getString("glucose_level");
                                             String timeFormatted;
                                             if(!previousTime.equals(time)){
-                                                timeFormatted = DateAndTimeUtils.convertTimeToAMAndPM(time);
+                                                if (!previousGlucoseLevel.equals(glucoseLevel)){
+                                                    timeFormatted = DateAndTimeUtils.convertTimeToAMAndPM(time);
 
-                                                list.add(new GlucoseHistoryModel(glucoseLevel, timeFormatted));
+                                                    list.add(new GlucoseHistoryModel(glucoseLevel, timeFormatted));
+                                                }
                                             }
                                             previousTime = time;
+                                            previousGlucoseLevel = glucoseLevel;
                                         }
                                     }
                                     if (myAdapter != null){

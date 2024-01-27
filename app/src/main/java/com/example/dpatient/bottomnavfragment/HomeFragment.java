@@ -1,6 +1,7 @@
 package com.example.dpatient.bottomnavfragment;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -65,6 +67,7 @@ import com.google.type.DateTime;
 import org.imaginativeworld.oopsnointernet.callbacks.ConnectionCallback;
 import org.imaginativeworld.oopsnointernet.dialogs.pendulum.DialogPropertiesPendulum;
 import org.imaginativeworld.oopsnointernet.dialogs.pendulum.NoInternetDialogPendulum;
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.IOException;
@@ -95,9 +98,13 @@ public class HomeFragment extends Fragment {
      RelativeLayout layout;
      private LineChart lineChart;
      private ArrayList<Entry> entry;
-     private String previousValue;
+
      private UserDetails userDetails;
-     private boolean isConnected;
+
+     private TextView fastingTV;
+     private String fastingString = "Non Fasting";
+     private Dialog fastingDialog;
+
 
 
 
@@ -113,48 +120,20 @@ public class HomeFragment extends Fragment {
         initWidgets(view);
         setUpConnectedToSensorLayout();
 
-        userDetails = new UserDetails(getContext());
-
-        if (patientId != null) {
-            FirebaseFirestore.getInstance().collection("Users").document(userDetails.getPatientId())
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot documentSnapshot = task.getResult();
-                                if (documentSnapshot.exists()) {
-                                    if (documentSnapshot.contains("isConnectedTo") && documentSnapshot.contains("isConnectedToSensor")) {
-                                        boolean isConnected = documentSnapshot.getBoolean("isConnectedToSensor");
-                                        String i = String.valueOf(isConnected);
-                                        String j = String.valueOf(userDetails.isAccountConnectedToSensor());
-                                        Toast.makeText(getContext(), i + j,
-                                                Toast.LENGTH_LONG).show();
-                                    }
-                                }
-                            }
-                        }
-                    });
-        }
+        setUpFastingStatus();
 
 
         setUpPatientName();
         setUpProfilePicture();
         setUpGlucoseLevel();
-
-
+        
         getData();
         setUpLineChart();
         setUpOverAllData();
 
-
-
         noInternetDialog();
 
         userDetails = new UserDetails(getContext());
-
-
-
 
         profileImageview.setOnClickListener(v->{
             Intent intent = new Intent(getContext(), YourProfile.class);
@@ -164,15 +143,74 @@ public class HomeFragment extends Fragment {
             startActivity(intent);
         });
 
-
-
         connectedToSensorLayout.setOnClickListener(v->{
             startActivity(new Intent(getContext(), SensorPage.class));
         });
 
-
-
         return view;
+    }
+    @SuppressLint("ClickableViewAccessibility")
+    private void setUpFastingStatus() {
+        fastingTV.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                pickDialog();
+                return false;
+            }
+        });
+
+        fastingTV.setText(fastingString);
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void pickDialog() {
+        if (getContext()!= null){
+            fastingDialog = new Dialog(getContext());
+
+            fastingDialog.setContentView(R.layout.fasting_choose_dialog_layout);
+            fastingDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            fastingDialog.setCancelable(false);
+            fastingDialog.show();
+
+            TextView fasting, nonFasting, afterEating;
+            fasting = fastingDialog.findViewById(R.id.fasting_Textview);
+            nonFasting = fastingDialog.findViewById(R.id.nonFasting_Textview);
+            afterEating = fastingDialog.findViewById(R.id.afterEating_Textview);
+
+            fasting.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    fastingString = "Fasting";
+                    fastingDialog.dismiss();
+                    setUpFastingStatus();
+                    return false;
+                }
+            });
+
+            nonFasting.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    fastingString = "Non Fasting";
+                    fastingDialog.dismiss();
+                    setUpFastingStatus();
+                    return false;
+                }
+            });
+
+            afterEating.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    fastingString = "After Eating";
+                    fastingDialog.dismiss();
+                    setUpFastingStatus();
+                    return false;
+                }
+            });
+
+
+        }
+
     }
 
     private void updateUserDetails() {
@@ -578,6 +616,31 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    private void fastingStatus(int glucoseLevel){
+
+        if (glucoseLevel < 60) {
+
+            glucoseStatusColor.setBackgroundResource(R.drawable.low_glucose_status_color);
+            glucoseStatusTV.setText("Low");
+
+
+        }
+
+        //Normal glucose
+        else if (glucoseLevel >= 60 && glucoseLevel <= 130) {
+
+            glucoseStatusColor.setBackgroundResource(R.drawable.normal_glucose_status_color);
+            glucoseStatusTV.setText("Normal");
+        }
+
+        // Pre-Diabetic
+        else if (glucoseLevel >= 130 && glucoseLevel <= 199) {
+
+            glucoseStatusColor.setBackgroundResource(R.drawable.pre_diabetic_glucose_status_color);
+            glucoseStatusTV.setText("Pre-Diabetic");
+        }
+    }
+
     private void setUpGlucoseStatusColor(String glucoseLevelString) {
 
         if (getContext()!= null) {
@@ -596,14 +659,14 @@ public class HomeFragment extends Fragment {
             }
 
             //Normal glucose
-            else if (glucoseLevel >= 60 && glucoseLevel <= 140) {
+            else if (glucoseLevel >= 60 && glucoseLevel <= 130) {
 
                 glucoseStatusColor.setBackgroundResource(R.drawable.normal_glucose_status_color);
                 glucoseStatusTV.setText("Normal");
             }
 
             // Pre-Diabetic
-            else if (glucoseLevel >= 140 && glucoseLevel <= 199) {
+            else if (glucoseLevel >= 130 && glucoseLevel <= 199) {
 
                 glucoseStatusColor.setBackgroundResource(R.drawable.pre_diabetic_glucose_status_color);
                 glucoseStatusTV.setText("Pre-Diabetic");
@@ -626,17 +689,55 @@ public class HomeFragment extends Fragment {
                 notificationUpdate.put("patientID", patientId);
                 notificationUpdate.put("userUID", FirebaseAuth.getInstance().getUid());
 
-                FirebaseFirestore.getInstance().collection("high_glucose_list").document(patientId)
-                        .set(notificationUpdate)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+
+
+
+                FirebaseFirestore.getInstance().collection("Users").document(patientId)
+                        .collection("myDoctor")
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
-                            public void onSuccess(Void unused) {
-                                Log.d("Firebase Database", "Added to high glucose list");
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.d("Firebase Database", "Failed to add high glucose list");
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()){
+                                    QuerySnapshot querySnapshot = task.getResult();
+                                    if (!querySnapshot.isEmpty() && querySnapshot != null){
+                                        for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
+                                            if (documentSnapshot.exists()){
+                                                String doctorUserId = documentSnapshot.getString("userID");
+
+                                                FirebaseFirestore.getInstance().collection("userDoctor").document(doctorUserId)
+                                                        .collection("myPatientWithHighGlucose")
+                                                        .document(patientId).set(notificationUpdate)
+                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                if (task.isSuccessful()){
+                                                                    Log.d("TAG", "High glucose notified to doctor");
+                                                                }
+                                                                else{
+                                                                    Log.d("TAG", "Failed to notify doctor on high glucose");
+                                                                }
+                                                            }
+                                                        });
+
+                                                FirebaseFirestore.getInstance().collection("userDoctor").document(doctorUserId)
+                                                        .collection("highGlucosePatientNotification")
+                                                        .document(patientId).set(notificationUpdate)
+                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                if (task.isSuccessful()){
+                                                                    Log.d("TAG", "High glucose notified to doctor");
+                                                                }
+                                                                else{
+                                                                    Log.d("TAG", "Failed to notify doctor on high glucose");
+                                                                }
+                                                            }
+                                                        });
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         });
             }
@@ -644,7 +745,9 @@ public class HomeFragment extends Fragment {
 
     }
 
+    private void setUpHighGlucoseToDoctor(HashMap<String, Object> notificationUpdate, String patientId) {
 
+    }
 
 
     private void initWidgets(View view) {
@@ -660,6 +763,8 @@ public class HomeFragment extends Fragment {
         glucoseStatusTV = view.findViewById(R.id.glucoseStatus_Textview);
 
         lineChart = view.findViewById(R.id.lineChart);
+
+        fastingTV = view.findViewById(R.id.fasting_Textview);
 
     }
 
@@ -819,7 +924,7 @@ public class HomeFragment extends Fragment {
        if (getContext()!= null){
            userDetails = new UserDetails(getContext());
            boolean isConnected = userDetails.isAccountConnectedToSensor();
-           Toast.makeText(getContext(), String.valueOf(isConnected), Toast.LENGTH_LONG).show();
+
            if (isConnected)
                connectedToSensorLayout.setVisibility(View.VISIBLE);
            else {
