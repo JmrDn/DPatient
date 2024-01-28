@@ -209,14 +209,23 @@ public class Login extends AppCompatActivity {
                                     //Account type is patient, means it can proceed
                                     setUpUserDetails();
 
-                                    new Handler().postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
+                                   if(FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()) {
+                                       new Handler().postDelayed(new Runnable() {
+                                           @Override
+                                           public void run() {
 
-                                            Toast.makeText(getApplicationContext(),"Sign in successfully", Toast.LENGTH_LONG).show();
-                                            startActivity(new Intent(getApplicationContext(), Homepage1.class));
-                                        }
-                                    }, 3000);
+                                               Toast.makeText(getApplicationContext(),"Sign in successfully", Toast.LENGTH_LONG).show();
+                                               startActivity(new Intent(getApplicationContext(), Homepage1.class));
+                                           }
+                                       }, 3000);
+                                   }
+                                   else{
+                                       loginBtn.setVisibility(View.VISIBLE);
+                                       loginProgressBar.setVisibility(View.GONE);
+                                       FirebaseAuth.getInstance().signOut();
+                                       Toast.makeText(getApplicationContext(), "Please verify your email", Toast.LENGTH_LONG).show();
+                                   }
+
 
 
                                 }

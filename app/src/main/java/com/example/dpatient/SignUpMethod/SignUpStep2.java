@@ -9,8 +9,11 @@ import androidx.appcompat.widget.Toolbar;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -38,6 +41,7 @@ public class SignUpStep2 extends AppCompatActivity {
     private Toolbar toolbar;
     private boolean patientIdExist = false;
     private String patientId;
+    private boolean confirmPasswordVisible, passwordVisible;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +49,9 @@ public class SignUpStep2 extends AppCompatActivity {
 
         initWidgets();
         setUpToolbar();
+
+        passwordHideMethod();
+        confirmPasswordHideMethod();
 
         createAccPB.setVisibility(View.GONE);
 
@@ -203,6 +210,20 @@ public class SignUpStep2 extends AppCompatActivity {
                                         }
                                     });
 
+                            //Email Verification
+                            FirebaseAuth.getInstance().getCurrentUser().sendEmailVerification()
+                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.isSuccessful()){
+                                                        Log.d("TAG", "Email verification sent");
+                                                    }
+                                                    else{
+                                                        Log.d("TAG", "Email verification failed to send");
+                                                    }
+                                                }
+                                            });
+
                             Toast.makeText(getApplicationContext(), "Account created Successfully", Toast.LENGTH_LONG).show();
                             startActivity(new Intent(getApplicationContext(), AccountCreatedSuccessfully.class));
 
@@ -256,4 +277,78 @@ public class SignUpStep2 extends AppCompatActivity {
 
         return  patientIdExist;
     }
+    @SuppressLint("ClickableViewAccessibility")
+    private void confirmPasswordHideMethod() {
+
+        confirmPasswordET.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                final int Right1 = 2;
+
+                if (motionEvent.getAction()== MotionEvent.ACTION_UP){
+                    if (motionEvent.getRawX()>= confirmPasswordET.getRight()-confirmPasswordET.getCompoundDrawables()[Right1].getBounds().width()){
+                        int selection = confirmPasswordET.getSelectionEnd();
+                        if (confirmPasswordVisible){
+                            //set drawable image here
+                            confirmPasswordET.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0, R.drawable.baseline_visibility_off_24, 0);
+                            // for hide password
+                            confirmPasswordET.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                            confirmPasswordVisible = false;
+                        }
+                        else {
+
+                            //set drawable image here
+                            confirmPasswordET.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0, R.drawable.baseline_visibility_24, 0);
+                            // for show password
+                            confirmPasswordET.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                            confirmPasswordVisible = true;
+
+                        }
+                        confirmPasswordET.setSelection(selection);
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void passwordHideMethod() {
+
+        passwordET.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                final int Right = 2;
+
+                if (motionEvent.getAction()== MotionEvent.ACTION_UP){
+                    if (motionEvent.getRawX()>= passwordET.getRight()-passwordET.getCompoundDrawables()[Right].getBounds().width()){
+                        int selection = passwordET.getSelectionEnd();
+                        if (passwordVisible){
+                            //set drawable image here
+                            passwordET.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0, R.drawable.baseline_visibility_off_24, 0);
+                            // for hide passwordET
+                            passwordET.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                            passwordVisible = false;
+                        }
+                        else {
+
+                            //set drawable image here
+                            passwordET.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0, R.drawable.baseline_visibility_24, 0);
+                            // for show password
+                            passwordET.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                            passwordVisible = true;
+
+                        }
+                        passwordET.setSelection(selection);
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+    }
+
 }

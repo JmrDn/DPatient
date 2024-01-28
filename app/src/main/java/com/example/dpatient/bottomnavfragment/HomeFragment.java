@@ -101,9 +101,7 @@ public class HomeFragment extends Fragment {
 
      private UserDetails userDetails;
 
-     private TextView fastingTV;
-     private String fastingString = "Non Fasting";
-     private Dialog fastingDialog;
+
 
 
 
@@ -120,7 +118,7 @@ public class HomeFragment extends Fragment {
         initWidgets(view);
         setUpConnectedToSensorLayout();
 
-        setUpFastingStatus();
+
 
 
         setUpPatientName();
@@ -149,69 +147,8 @@ public class HomeFragment extends Fragment {
 
         return view;
     }
-    @SuppressLint("ClickableViewAccessibility")
-    private void setUpFastingStatus() {
-        fastingTV.setOnTouchListener(new View.OnTouchListener() {
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                pickDialog();
-                return false;
-            }
-        });
-
-        fastingTV.setText(fastingString);
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    private void pickDialog() {
-        if (getContext()!= null){
-            fastingDialog = new Dialog(getContext());
-
-            fastingDialog.setContentView(R.layout.fasting_choose_dialog_layout);
-            fastingDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            fastingDialog.setCancelable(false);
-            fastingDialog.show();
-
-            TextView fasting, nonFasting, afterEating;
-            fasting = fastingDialog.findViewById(R.id.fasting_Textview);
-            nonFasting = fastingDialog.findViewById(R.id.nonFasting_Textview);
-            afterEating = fastingDialog.findViewById(R.id.afterEating_Textview);
-
-            fasting.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    fastingString = "Fasting";
-                    fastingDialog.dismiss();
-                    setUpFastingStatus();
-                    return false;
-                }
-            });
-
-            nonFasting.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    fastingString = "Non Fasting";
-                    fastingDialog.dismiss();
-                    setUpFastingStatus();
-                    return false;
-                }
-            });
-
-            afterEating.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    fastingString = "After Eating";
-                    fastingDialog.dismiss();
-                    setUpFastingStatus();
-                    return false;
-                }
-            });
 
 
-        }
-
-    }
 
     private void updateUserDetails() {
         if (getContext() != null){
@@ -618,7 +555,7 @@ public class HomeFragment extends Fragment {
 
     private void fastingStatus(int glucoseLevel){
 
-        if (glucoseLevel < 60) {
+        if (glucoseLevel < 80) {
 
             glucoseStatusColor.setBackgroundResource(R.drawable.low_glucose_status_color);
             glucoseStatusTV.setText("Low");
@@ -627,7 +564,7 @@ public class HomeFragment extends Fragment {
         }
 
         //Normal glucose
-        else if (glucoseLevel >= 60 && glucoseLevel <= 130) {
+        else if (glucoseLevel > 80 && glucoseLevel <= 100) {
 
             glucoseStatusColor.setBackgroundResource(R.drawable.normal_glucose_status_color);
             glucoseStatusTV.setText("Normal");
@@ -764,7 +701,6 @@ public class HomeFragment extends Fragment {
 
         lineChart = view.findViewById(R.id.lineChart);
 
-        fastingTV = view.findViewById(R.id.fasting_Textview);
 
     }
 
