@@ -30,7 +30,7 @@
         android:id="@+id/nonFasting_Textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Non Fasting"
+        android:text="2-3hrs After Eating"
         android:fontFamily="@font/calibri_regular"
         android:textSize="20sp"
         android:textColor="@color/black"

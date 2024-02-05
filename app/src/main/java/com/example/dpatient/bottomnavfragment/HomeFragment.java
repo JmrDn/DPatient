@@ -100,6 +100,8 @@ public class HomeFragment extends Fragment {
      private ArrayList<Entry> entry;
 
      private UserDetails userDetails;
+     private TextView fastingTV;
+     private String fastingString = "2-3hrs After Eating";
 
 
 
@@ -118,9 +120,7 @@ public class HomeFragment extends Fragment {
         initWidgets(view);
         setUpConnectedToSensorLayout();
 
-
-
-
+        setUpFastingContent();
         setUpPatientName();
         setUpProfilePicture();
         setUpGlucoseLevel();
@@ -147,7 +147,94 @@ public class HomeFragment extends Fragment {
 
         return view;
     }
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @SuppressLint("ClickableViewAccessibility")
+    private void setUpFastingContent() {
 
+        if (getContext() != null){
+            userDetails = new UserDetails(getContext());
+            if (userDetails.getFastingStatus() != null){
+                fastingTV.setText(userDetails.getFastingStatus());
+                fastingString = userDetails.getFastingStatus();
+            }
+            else{
+                userDetails.setFastingStatus(fastingString);
+                fastingTV.setText(userDetails.getFastingStatus());
+            }
+
+
+
+
+            fastingTV.setOnTouchListener(new View.OnTouchListener() {
+
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    showFastingOptionDialog();
+                    return false;
+                }
+            });
+        }
+    }
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @SuppressLint("ClickableViewAccessibility")
+    private void showFastingOptionDialog() {
+       if (getContext() != null){
+
+           userDetails = new UserDetails(getContext());
+
+           Dialog dialog = new Dialog(getContext());
+           dialog.setContentView(R.layout.fasting_choose_dialog_layout);
+           dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+           dialog.setCancelable(true);
+           dialog.show();
+
+           TextView dialogFastingTV, dialogNonFastingTV, dialogAfterEatingTV;
+           dialogFastingTV = dialog.findViewById(R.id.fasting_Textview);
+           dialogNonFastingTV = dialog.findViewById(R.id.nonFasting_Textview);
+           dialogAfterEatingTV = dialog.findViewById(R.id.afterEating_Textview);
+
+           dialogFastingTV.setOnTouchListener(new View.OnTouchListener() {
+
+               @Override
+               public boolean onTouch(View v, MotionEvent event) {
+                   fastingString = "Fasting";
+                   userDetails.setFastingStatus(fastingString);
+                   fastingTV.setText(userDetails.getFastingStatus());
+                   setUpGlucoseLevel();
+                   dialog.dismiss();
+                   return false;
+               }
+           });
+
+           dialogNonFastingTV.setOnTouchListener(new View.OnTouchListener() {
+
+               @Override
+               public boolean onTouch(View v, MotionEvent event) {
+                   fastingString = "2-3hrs After Eating";
+                   userDetails.setFastingStatus(fastingString);
+                   fastingTV.setText(userDetails.getFastingStatus());
+                   setUpGlucoseLevel();
+                   dialog.dismiss();
+                   return false;
+               }
+           });
+
+           dialogAfterEatingTV.setOnTouchListener(new View.OnTouchListener() {
+
+
+               @Override
+               public boolean onTouch(View v, MotionEvent event) {
+                   fastingString = "After Eating";
+                   userDetails.setFastingStatus(fastingString);
+                   fastingTV.setText(userDetails.getFastingStatus());
+                   setUpGlucoseLevel();
+                   dialog.dismiss();
+                   return false;
+               }
+           });
+       }
+
+    }
 
 
     private void updateUserDetails() {
@@ -340,6 +427,7 @@ public class HomeFragment extends Fragment {
                 recentData.put("recent_glucose_level", glucoseLevel);
                 recentData.put("date", date);
                 recentData.put("time", time);
+                recentData.put("fasting", fastingTV.getText().toString());
 
                 FirebaseFirestore.getInstance().collection("Users").document(patientId)
                         .update(recentData)
@@ -396,6 +484,7 @@ public class HomeFragment extends Fragment {
                     glucoseDataDay.put("glucose_level", glucoseLevel);
                     glucoseDataDay.put("time", time);
                     glucoseDataDay.put("date", date);
+                    glucoseDataDay.put("fasting", fastingTV.getText().toString());
 
                     documentReferenceDay.set(glucoseDataDay)
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -453,6 +542,25 @@ public class HomeFragment extends Fragment {
                                             int totalGlucose = 0;
                                             int averageGlucose = 0;
                                             int glucoseDataLength = 0;
+
+                                            int fastingHighestGlucose = 0;
+                                            int fastingLowestGlucose = 1000;
+                                            int fastingTotalGlucose = 0;
+                                            int fastingAverageGlucose = 0;
+                                            int fastingGlucoseDataLength = 0;
+
+                                            int afterEatingHighestGlucose = 0;
+                                            int afterEatingLowestGlucose = 1000;
+                                            int afterEatingTotalGlucose = 0;
+                                            int afterEatingAverageGlucose = 0;
+                                            int afterEatingGlucoseDataLength = 0;
+
+                                            int after2_3HrsEatingHighestGlucose = 0;
+                                            int after2_3HrsEatingLowestGlucose = 1000;
+                                            int after2_3HrsEatingTotalGlucose = 0;
+                                            int after2_3HrsEatingAverageGlucose = 0;
+                                            int after2_3HrsEatingGlucoseDataLength = 0;
+
                                             for (DocumentSnapshot documentSnapshot: task.getResult()){
                                                 String glucoseLevelString = documentSnapshot.getString("glucose_level");
                                                 if (glucoseLevelString.equals("NONE"))
@@ -460,6 +568,62 @@ public class HomeFragment extends Fragment {
                                                 if(glucoseLevelString.equals("�"))
                                                     glucoseLevelString = "0";
                                                 int glucoseLevel = Integer.parseInt(glucoseLevelString);
+
+                                                if (documentSnapshot.contains("fasting")){
+                                                    String fasting = documentSnapshot.getString("fasting");
+
+                                                    if (fasting != null && !fasting.isEmpty()){
+                                                        if (fasting.equals("Fasting")){
+                                                            //Fasting Data Result
+                                                            //Get the data length
+                                                            fastingGlucoseDataLength++;
+
+                                                            //Get highest glucose
+                                                            if(glucoseLevel > fastingHighestGlucose)
+                                                                fastingHighestGlucose = glucoseLevel;
+
+                                                            //Get the lowest glucose
+                                                            if(glucoseLevel < fastingLowestGlucose)
+                                                                fastingLowestGlucose = glucoseLevel;
+
+                                                            //Get the total of glucose
+                                                            fastingTotalGlucose += glucoseLevel;
+                                                        }
+                                                        else if (fasting.equals("After Eating")){
+                                                            //After Eating Data Result
+                                                            //Get the data length
+                                                            afterEatingGlucoseDataLength++;
+
+                                                            //Get highest glucose
+                                                            if(glucoseLevel > afterEatingHighestGlucose)
+                                                                afterEatingHighestGlucose = glucoseLevel;
+
+                                                            //Get the lowest glucose
+                                                            if(glucoseLevel < afterEatingLowestGlucose)
+                                                                afterEatingLowestGlucose = glucoseLevel;
+
+                                                            //Get the total of glucose
+                                                            afterEatingTotalGlucose += glucoseLevel;
+                                                        }
+                                                        else if (fasting.equals("2-3hrs After Eating")){
+                                                            //After 2-3 Hrs Eating data result
+                                                            //Get the data length
+                                                            after2_3HrsEatingGlucoseDataLength++;
+
+                                                            //Get highest glucose
+                                                            if(glucoseLevel > after2_3HrsEatingHighestGlucose)
+                                                                after2_3HrsEatingHighestGlucose = glucoseLevel;
+
+                                                            //Get the lowest glucose
+                                                            if(glucoseLevel < after2_3HrsEatingLowestGlucose)
+                                                                after2_3HrsEatingLowestGlucose = glucoseLevel;
+
+                                                            //Get the total of glucose
+                                                            after2_3HrsEatingTotalGlucose += glucoseLevel;
+                                                        }
+                                                    }
+                                                }
+
 
                                                 //Get the data length
                                                 glucoseDataLength++;
@@ -480,7 +644,22 @@ public class HomeFragment extends Fragment {
                                             //Get average of glucose
                                             averageGlucose = totalGlucose / glucoseDataLength;
 
-                                            setMonthDocumentData(highestGlucose, lowestGlucose, averageGlucose);
+                                            if (fastingGlucoseDataLength != 0)
+                                                //Get average of fasting
+                                                fastingAverageGlucose = fastingTotalGlucose / fastingGlucoseDataLength;
+
+                                            if (afterEatingGlucoseDataLength != 0)
+                                                //Get average of After eating
+                                                afterEatingAverageGlucose = afterEatingTotalGlucose / afterEatingGlucoseDataLength;
+
+                                            if (after2_3HrsEatingGlucoseDataLength != 0)
+                                                //Get average of After 2-3 Hrs Eating
+                                                after2_3HrsEatingAverageGlucose = after2_3HrsEatingTotalGlucose / after2_3HrsEatingGlucoseDataLength;
+
+                                            setMonthDocumentData(highestGlucose, lowestGlucose, averageGlucose,
+                                                    fastingHighestGlucose, fastingLowestGlucose, fastingAverageGlucose,
+                                                    afterEatingHighestGlucose, afterEatingLowestGlucose, afterEatingAverageGlucose,
+                                                    after2_3HrsEatingHighestGlucose, after2_3HrsEatingLowestGlucose, after2_3HrsEatingAverageGlucose);
                                         }
                                     }
                                 }
@@ -511,7 +690,10 @@ public class HomeFragment extends Fragment {
         }, milliseconds);
     }
 
-    private void setMonthDocumentData(int highestGlucose, int lowestGlucose, int averageGlucose){
+    private void setMonthDocumentData(int highestGlucose, int lowestGlucose, int averageGlucose,
+                                      int fastingHighestGlucose, int fastingLowestGlucose, int fastingAverageGlucose,
+                                      int afterEatingHighestGlucose, int afterEatingLowestGlucose, int afterEatingAverageGlucose,
+                                      int after2_3HrsEatingHighestGlucose, int after2_3HrsEatingLowestGlucose, int after2_3HrsEatingAverageGlucose){
 
 
 
@@ -524,105 +706,241 @@ public class HomeFragment extends Fragment {
             String time = DateAndTimeUtils.time24HrsFormat();
             String date = DateAndTimeUtils.getDate();
 
+            if (fastingLowestGlucose == 1000)
+                fastingLowestGlucose = 0;
+            if (afterEatingLowestGlucose == 1000)
+                afterEatingLowestGlucose = 0;
+            if (after2_3HrsEatingLowestGlucose == 1000)
+                after2_3HrsEatingLowestGlucose = 0;
+
+
+
             if (patientId != null){
                 DocumentReference documentReferenceReferenceMonth = FirebaseFirestore.getInstance().collection("Users").document(patientId)
                         .collection("year_" + year).document(month + "_" + year);
 
                 HashMap<String, Object> saveData = new HashMap<>();
-                saveData.put("highest_glucose", highestGlucose);
-                saveData.put("lowest_glucose", lowestGlucose);
-                saveData.put("average_glucose", averageGlucose);
-                saveData.put("date", date);
-                saveData.put("time", time);
 
-                if(documentReferenceReferenceMonth != null){
-                    documentReferenceReferenceMonth.set(saveData)
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                long finalFastingLowestGlucose = fastingLowestGlucose;
+                long finalAfterEatingLowestGlucose = afterEatingLowestGlucose;
+                long finalAfter2_3HrsEatingLowestGlucose = after2_3HrsEatingLowestGlucose;
+
+
+
+                if (documentReferenceReferenceMonth != null){
+
+                    documentReferenceReferenceMonth.get()
+                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                 @Override
-                                public void onComplete(@NonNull Task<Void> task) {
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                     if (task.isSuccessful()){
-                                        Log.d("TAG", "Date saved");
-                                    }
-                                    else {
-                                        Log.d("TAG", "Date not saved, HomeFragment: 283");
+                                        DocumentSnapshot documentSnapshot = task.getResult();
+
+                                        if (documentSnapshot.exists()){
+
+                                            if(documentSnapshot.contains("fasting_highest") &&
+                                                    documentSnapshot.contains("fasting_lowest")&&
+                                                    documentSnapshot.contains("fasting_average")){
+
+                                                long oldFastingHighest = documentSnapshot.getLong("fasting_highest");
+                                                long oldFastingLowest = documentSnapshot.getLong("fasting_lowest");
+                                                long oldFastingAverage = documentSnapshot.getLong("fasting_average");
+
+                                                if(oldFastingLowest == 0)
+                                                    oldFastingLowest = 1000;
+
+                                                if (fastingHighestGlucose > oldFastingHighest)
+                                                    saveData.put("fasting_highest", fastingHighestGlucose);
+                                                if (oldFastingLowest == 0){
+                                                    if (finalFastingLowestGlucose < oldFastingLowest){
+                                                        saveData.put("fasting_lowest", finalFastingLowestGlucose);
+
+
+                                                    }
+                                                }
+                                                else{
+                                                    if (finalFastingLowestGlucose < oldFastingLowest){
+
+                                                        if (finalFastingLowestGlucose != 1000)
+                                                            saveData.put("fasting_lowest", finalFastingLowestGlucose);
+                                                        else{
+                                                            saveData.put("fasting_lowest", 0);
+                                                        }
+
+                                                    }
+                                                }
+
+                                                if (fastingAverageGlucose != 0){
+                                                    saveData.put("fasting_average", (fastingAverageGlucose + oldFastingAverage) / 2);
+                                                }
+
+                                            }
+                                            else{
+                                                saveData.put("fasting_highest", fastingHighestGlucose);
+                                                saveData.put("fasting_lowest", finalFastingLowestGlucose);
+                                                saveData.put("fasting_average", fastingAverageGlucose);
+                                            }
+
+                                            if(documentSnapshot.contains("after_eating_highest") &&
+                                                    documentSnapshot.contains("after_eating_lowest")&&
+                                                    documentSnapshot.contains("after_eating_average")){
+
+                                                long oldAfterEatingHighest = documentSnapshot.getLong("after_eating_highest");
+                                                long oldAfterEatingLowest = documentSnapshot.getLong("after_eating_lowest");
+                                                long oldAfterEatingAverage = documentSnapshot.getLong("after_eating_average");
+
+                                                if(oldAfterEatingLowest == 0)
+                                                    oldAfterEatingLowest = 1000;
+                                                if (afterEatingHighestGlucose > oldAfterEatingHighest)
+                                                    saveData.put("after_eating_highest", fastingHighestGlucose);
+                                                if (finalAfterEatingLowestGlucose < oldAfterEatingLowest){
+
+                                                    if (finalAfterEatingLowestGlucose != 1000)
+                                                        saveData.put("after_eating_lowest", finalAfterEatingLowestGlucose);
+                                                    else{
+                                                        saveData.put("after_eating_lowest", 0);
+                                                    }
+                                                }
+                                                if (afterEatingAverageGlucose != 0){
+                                                    saveData.put("after_eating_average", (afterEatingAverageGlucose + oldAfterEatingAverage) / 2);
+                                                }
+
+                                            }
+                                            else{
+                                                saveData.put("after_eating_highest", afterEatingHighestGlucose);
+                                                saveData.put("after_eating_lowest", finalAfterEatingLowestGlucose);
+                                                saveData.put("after_eating_average", afterEatingAverageGlucose);
+                                            }
+
+                                            if(documentSnapshot.contains("after_2_3_hours_highest") &&
+                                                    documentSnapshot.contains("after_2_3_hours_lowest")&&
+                                                    documentSnapshot.contains("after_2_3_hours_average")){
+
+                                                long oldAfter2_3hrsEatingHighest = documentSnapshot.getLong("after_2_3_hours_highest");
+                                                long oldAfter2_3hrsEatingLowest = documentSnapshot.getLong("after_2_3_hours_lowest");
+                                                long oldAfter2_3hrsEatingAverage = documentSnapshot.getLong("after_2_3_hours_average");
+
+                                                if(oldAfter2_3hrsEatingLowest == 0)
+                                                    oldAfter2_3hrsEatingLowest = 1000;
+
+                                                if (after2_3HrsEatingHighestGlucose > oldAfter2_3hrsEatingHighest)
+                                                    saveData.put("after_2_3_hours_highest", after2_3HrsEatingHighestGlucose);
+                                                if (finalAfter2_3HrsEatingLowestGlucose < oldAfter2_3hrsEatingLowest){
+
+                                                    if(finalAfter2_3HrsEatingLowestGlucose != 1000){
+                                                        saveData.put("after_2_3_hours_lowest", finalAfterEatingLowestGlucose);
+                                                    }
+                                                    else{
+                                                        saveData.put("after_2_3_hours_lowest", 0);
+                                                    }
+                                                }
+
+                                                if (after2_3HrsEatingAverageGlucose != 0){
+                                                    saveData.put("after_2_3_hours_average", (after2_3HrsEatingAverageGlucose + oldAfter2_3hrsEatingAverage) / 2);
+                                                }
+
+                                            }
+                                            else{
+                                                saveData.put("after_2_3_hours_highest", after2_3HrsEatingHighestGlucose);
+                                                saveData.put("after_2_3_hours_lowest", finalAfter2_3HrsEatingLowestGlucose);
+                                                saveData.put("after_2_3_hours_average", after2_3HrsEatingAverageGlucose);
+                                            }
+
+                                            saveData.put("highest_glucose", highestGlucose);
+                                            saveData.put("lowest_glucose", lowestGlucose);
+                                            saveData.put("average_glucose", averageGlucose);
+                                            saveData.put("date", date);
+                                            saveData.put("time", time);
+
+
+                                            documentReferenceReferenceMonth.update(saveData)
+                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            if (task.isSuccessful()){
+                                                                Log.d("TAG", "Date saved");
+                                                            }
+                                                            else {
+                                                                Log.d("TAG", "Date not saved, HomeFragment: 283");
+                                                            }
+                                                        }
+                                                    });
+                                        }
                                     }
                                 }
                             });
                 }
+
             }
         }
     }
 
-    private void fastingStatus(int glucoseLevel){
-
-        if (glucoseLevel < 80) {
-
-            glucoseStatusColor.setBackgroundResource(R.drawable.low_glucose_status_color);
-            glucoseStatusTV.setText("Low");
-
-
-        }
-
-        //Normal glucose
-        else if (glucoseLevel > 80 && glucoseLevel <= 100) {
-
-            glucoseStatusColor.setBackgroundResource(R.drawable.normal_glucose_status_color);
-            glucoseStatusTV.setText("Normal");
-        }
-
-        // Pre-Diabetic
-        else if (glucoseLevel >= 130 && glucoseLevel <= 199) {
-
-            glucoseStatusColor.setBackgroundResource(R.drawable.pre_diabetic_glucose_status_color);
-            glucoseStatusTV.setText("Pre-Diabetic");
-        }
-    }
 
     private void setUpGlucoseStatusColor(String glucoseLevelString) {
 
-        if (getContext()!= null) {
+        int glucoseLevelInt = Integer.parseInt(glucoseLevelString);
+
+        if (fastingString.equals("Fasting")){
+            fastingResult(glucoseLevelInt);
+        }
+        else if (fastingString.equals("2-3hrs After Eating")){
+            afterEating2_3hrsResult(glucoseLevelInt);
+        }
+        else if (fastingString.equals("After Eating")){
+            afterEatingResult(glucoseLevelInt);
+        }
+
+    }
+
+    private void afterEatingResult(int glucoseLevel) {
+
+        if (getContext() != null){
+
             userDetails = new UserDetails(getContext());
             patientId = userDetails.getPatientId();
-
-            int glucoseLevel = Integer.parseInt(glucoseLevelString);
-
+            HashMap<String, Object> update = new HashMap<>();
             //Low glucose
-            if (glucoseLevel < 60) {
+            if (glucoseLevel < 170) {
 
                 glucoseStatusColor.setBackgroundResource(R.drawable.low_glucose_status_color);
                 glucoseStatusTV.setText("Low");
+                update.put("recent_glucose_status", "Low");
 
 
             }
 
             //Normal glucose
-            else if (glucoseLevel >= 60 && glucoseLevel <= 130) {
+            else if (glucoseLevel >= 170 && glucoseLevel <= 200) {
 
                 glucoseStatusColor.setBackgroundResource(R.drawable.normal_glucose_status_color);
                 glucoseStatusTV.setText("Normal");
+                update.put("recent_glucose_status", "Normal");
             }
 
             // Pre-Diabetic
-            else if (glucoseLevel >= 130 && glucoseLevel <= 199) {
+            else if (glucoseLevel >= 201 && glucoseLevel <= 230) {
 
                 glucoseStatusColor.setBackgroundResource(R.drawable.pre_diabetic_glucose_status_color);
                 glucoseStatusTV.setText("Pre-Diabetic");
+                update.put("recent_glucose_status", "Pre-Diabetic");
             }
 
 
             //High glucose
-            else if (glucoseLevel >= 200) {
+            else if (glucoseLevel > 230) {
 
                 DateAndTimeUtils dateAndTimeUtils = new DateAndTimeUtils();
 
                 glucoseStatusColor.setBackgroundResource(R.drawable.high_glucose_status_color);
                 glucoseStatusTV.setText("High");
+                update.put("recent_glucose_status", "High");
 
                 HashMap<String, Object> notificationUpdate = new HashMap<>();
                 notificationUpdate.put("glucose_level", glucoseLevel);
                 notificationUpdate.put("time", dateAndTimeUtils.getTimeWithAMAndPM());
                 notificationUpdate.put("date", dateAndTimeUtils.getDate());
                 notificationUpdate.put("name", name);
+                notificationUpdate.put("fasting", fastingString);
                 notificationUpdate.put("patientID", patientId);
                 notificationUpdate.put("userUID", FirebaseAuth.getInstance().getUid());
 
@@ -678,7 +996,271 @@ public class HomeFragment extends Fragment {
                             }
                         });
             }
+            FirebaseFirestore.getInstance().collection("Users").document(patientId)
+                    .update(update)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()){
+                                Log.d("TAG", "recent glucose status successfully updated");
+                            }
+                            else{
+                                Log.d("TAG", "recent glucose status failed to update");
+                            }
+                        }
+                    });
         }
+
+
+    }
+
+    private void afterEating2_3hrsResult(int glucoseLevel) {
+
+        if (getContext() != null){
+            userDetails = new UserDetails(getContext());
+            patientId = userDetails.getPatientId();
+
+            HashMap<String, Object> update = new HashMap<>();
+            //Low glucose
+            if (glucoseLevel < 60) {
+
+                glucoseStatusColor.setBackgroundResource(R.drawable.low_glucose_status_color);
+                glucoseStatusTV.setText("Low");
+                update.put("recent_glucose_status", "Low");
+
+
+            }
+
+            //Normal glucose
+            else if (glucoseLevel >= 120 && glucoseLevel <= 140) {
+
+                glucoseStatusColor.setBackgroundResource(R.drawable.normal_glucose_status_color);
+                glucoseStatusTV.setText("Normal");
+                update.put("recent_glucose_status", "Normal");
+            }
+
+            // Pre-Diabetic
+            else if (glucoseLevel > 141 && glucoseLevel <= 199) {
+
+                glucoseStatusColor.setBackgroundResource(R.drawable.pre_diabetic_glucose_status_color);
+                glucoseStatusTV.setText("Pre-Diabetic");
+                update.put("recent_glucose_status", "Pre-Diabetic");
+            }
+
+
+            //High glucose
+            else if (glucoseLevel >= 200) {
+
+                DateAndTimeUtils dateAndTimeUtils = new DateAndTimeUtils();
+
+                glucoseStatusColor.setBackgroundResource(R.drawable.high_glucose_status_color);
+                glucoseStatusTV.setText("High");
+                update.put("recent_glucose_status", "High");
+
+                HashMap<String, Object> notificationUpdate = new HashMap<>();
+                notificationUpdate.put("glucose_level", glucoseLevel);
+                notificationUpdate.put("time", dateAndTimeUtils.getTimeWithAMAndPM());
+                notificationUpdate.put("date", dateAndTimeUtils.getDate());
+                notificationUpdate.put("name", name);
+                notificationUpdate.put("fasting", fastingString);
+                notificationUpdate.put("patientID", patientId);
+                notificationUpdate.put("userUID", FirebaseAuth.getInstance().getUid());
+
+
+
+
+                FirebaseFirestore.getInstance().collection("Users").document(patientId)
+                        .collection("myDoctor")
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()){
+                                    QuerySnapshot querySnapshot = task.getResult();
+                                    if (!querySnapshot.isEmpty() && querySnapshot != null){
+                                        for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
+                                            if (documentSnapshot.exists()){
+                                                String doctorUserId = documentSnapshot.getString("userID");
+
+                                                FirebaseFirestore.getInstance().collection("userDoctor").document(doctorUserId)
+                                                        .collection("myPatientWithHighGlucose")
+                                                        .document(patientId).set(notificationUpdate)
+                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                if (task.isSuccessful()){
+                                                                    Log.d("TAG", "High glucose notified to doctor");
+                                                                }
+                                                                else{
+                                                                    Log.d("TAG", "Failed to notify doctor on high glucose");
+                                                                }
+                                                            }
+                                                        });
+
+                                                FirebaseFirestore.getInstance().collection("userDoctor").document(doctorUserId)
+                                                        .collection("highGlucosePatientNotification")
+                                                        .document(patientId).set(notificationUpdate)
+                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                if (task.isSuccessful()){
+                                                                    Log.d("TAG", "High glucose notified to doctor");
+                                                                }
+                                                                else{
+                                                                    Log.d("TAG", "Failed to notify doctor on high glucose");
+                                                                }
+                                                            }
+                                                        });
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        });
+            }
+
+            FirebaseFirestore.getInstance().collection("Users").document(patientId)
+                    .update(update)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()){
+                                Log.d("TAG", "recent glucose status successfully updated");
+                            }
+                            else{
+                                Log.d("TAG", "recent glucose status failed to update");
+                            }
+                        }
+                    });
+        }
+
+
+
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void fastingResult(int glucoseLevel) {
+
+
+        if (getContext() != null){
+            userDetails = new UserDetails(getContext());
+            patientId = userDetails.getPatientId();
+
+            HashMap<String, Object> update = new HashMap<>();
+
+
+            //Low glucose
+            if (glucoseLevel < 80) {
+
+                glucoseStatusColor.setBackgroundResource(R.drawable.low_glucose_status_color);
+                glucoseStatusTV.setText("Low");
+                update.put("recent_glucose_status", "Low");
+
+            }
+
+            //Normal glucose
+            else if (glucoseLevel >= 80 && glucoseLevel <= 100) {
+
+                glucoseStatusColor.setBackgroundResource(R.drawable.normal_glucose_status_color);
+                glucoseStatusTV.setText("Normal");
+                update.put("recent_glucose_status", "Normal");
+            }
+
+            // Pre-Diabetic
+            else if (glucoseLevel >= 101 && glucoseLevel <= 125) {
+
+                glucoseStatusColor.setBackgroundResource(R.drawable.pre_diabetic_glucose_status_color);
+                glucoseStatusTV.setText("Pre-Diabetic");
+                update.put("recent_glucose_status", "Pre-Diabetic");
+            }
+
+
+            //High glucose
+            else if (glucoseLevel > 125) {
+
+                DateAndTimeUtils dateAndTimeUtils = new DateAndTimeUtils();
+
+                glucoseStatusColor.setBackgroundResource(R.drawable.high_glucose_status_color);
+                glucoseStatusTV.setText("High");
+                update.put("recent_glucose_status", "High");
+
+                HashMap<String, Object> notificationUpdate = new HashMap<>();
+                notificationUpdate.put("glucose_level", glucoseLevel);
+                notificationUpdate.put("time", dateAndTimeUtils.getTimeWithAMAndPM());
+                notificationUpdate.put("date", dateAndTimeUtils.getDate());
+                notificationUpdate.put("name", name);
+                notificationUpdate.put("fasting", fastingString);
+                notificationUpdate.put("patientID", patientId);
+                notificationUpdate.put("userUID", FirebaseAuth.getInstance().getUid());
+
+
+
+
+                FirebaseFirestore.getInstance().collection("Users").document(patientId)
+                        .collection("myDoctor")
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()){
+                                    QuerySnapshot querySnapshot = task.getResult();
+                                    if (!querySnapshot.isEmpty() && querySnapshot != null){
+                                        for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
+                                            if (documentSnapshot.exists()){
+                                                String doctorUserId = documentSnapshot.getString("userID");
+
+                                                FirebaseFirestore.getInstance().collection("userDoctor").document(doctorUserId)
+                                                        .collection("myPatientWithHighGlucose")
+                                                        .document(patientId).set(notificationUpdate)
+                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                if (task.isSuccessful()){
+                                                                    Log.d("TAG", "High glucose notified to doctor");
+                                                                }
+                                                                else{
+                                                                    Log.d("TAG", "Failed to notify doctor on high glucose");
+                                                                }
+                                                            }
+                                                        });
+
+                                                FirebaseFirestore.getInstance().collection("userDoctor").document(doctorUserId)
+                                                        .collection("highGlucosePatientNotification")
+                                                        .document(patientId).set(notificationUpdate)
+                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                if (task.isSuccessful()){
+                                                                    Log.d("TAG", "High glucose notified to doctor");
+                                                                }
+                                                                else{
+                                                                    Log.d("TAG", "Failed to notify doctor on high glucose");
+                                                                }
+                                                            }
+                                                        });
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        });
+            }
+
+            FirebaseFirestore.getInstance().collection("Users").document(patientId)
+                    .update(update)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()){
+                                Log.d("TAG", "recent glucose status successfully updated");
+                            }
+                            else{
+                                Log.d("TAG", "recent glucose status failed to update");
+                            }
+                        }
+                    });
+        }
+
 
     }
 
@@ -693,13 +1275,14 @@ public class HomeFragment extends Fragment {
         profileImageview = view.findViewById(R.id.profile_pic_image_view);
         layout = view.findViewById(R.id.data_Layout);
 
-
         glucoseLevelTV = view.findViewById(R.id.glucoseLevel_Textview);
         timeTV = view.findViewById(R.id.time_Textview);
         glucoseStatusColor = view.findViewById(R.id.glucoseStatusColor_RelativeLayout);
         glucoseStatusTV = view.findViewById(R.id.glucoseStatus_Textview);
 
         lineChart = view.findViewById(R.id.lineChart);
+
+        fastingTV = view.findViewById(R.id.fasting_Textview);
 
 
     }
@@ -786,6 +1369,24 @@ public class HomeFragment extends Fragment {
                                             long glucoseHighest = 0;
                                             long glucoseLowest = 1000;
                                             long documentLength = 0;
+
+                                            long fastingHighestGlucose = 0;
+                                            long fastingLowestGlucose = 1000;
+                                            long fastingTotalGlucose = 0;
+                                            long fastingAverageGlucose = 0;
+                                            long fastingGlucoseDataLength = 0;
+
+                                            long afterEatingHighestGlucose = 0;
+                                            long afterEatingLowestGlucose = 1000;
+                                            long afterEatingTotalGlucose = 0;
+                                            long afterEatingAverageGlucose = 0;
+                                            long afterEatingGlucoseDataLength = 0;
+
+                                            long after2_3HrsEatingHighestGlucose = 0;
+                                            long after2_3HrsEatingLowestGlucose = 1000;
+                                            long after2_3HrsEatingTotalGlucose = 0;
+                                            long after2_3HrsEatingAverageGlucose = 0;
+                                            long after2_3HrsEatingGlucoseDataLength = 0;
                                             for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
                                                 if (documentSnapshot.exists()){
                                                     documentLength++;
@@ -796,13 +1397,72 @@ public class HomeFragment extends Fragment {
                                                     if ((long) documentSnapshot.get("lowest_glucose") < glucoseLowest)
                                                         glucoseLowest = (long) documentSnapshot.get("lowest_glucose");
 
+                                                    if (documentSnapshot.contains("fasting_average") &&
+                                                            documentSnapshot.contains("fasting_highest") &&
+                                                            documentSnapshot.contains("fasting_lowest")){
+
+                                                        if (documentSnapshot.getLong("fasting_highest") > fastingHighestGlucose)
+                                                            fastingHighestGlucose = documentSnapshot.getLong("fasting_highest");
+                                                        if (documentSnapshot.getLong("fasting_lowest") < fastingLowestGlucose)
+                                                            fastingLowestGlucose = documentSnapshot.getLong("fasting_lowest");
+                                                        if (documentSnapshot.getLong("fasting_average") != 0){
+                                                            fastingGlucoseDataLength++;
+                                                            fastingTotalGlucose += documentSnapshot.getLong("fasting_average");
+                                                        }
+
+
+                                                    }
+
+                                                    if(documentSnapshot.contains("after_eating_average") &&
+                                                            documentSnapshot.contains("after_eating_highest") &&
+                                                            documentSnapshot.contains("after_eating_lowest")){
+
+                                                        if (documentSnapshot.getLong("after_eating_highest") > afterEatingHighestGlucose)
+                                                            afterEatingHighestGlucose = documentSnapshot.getLong("after_eating_highest");
+                                                        if (documentSnapshot.getLong("after_eating_lowest") < afterEatingLowestGlucose)
+                                                            afterEatingLowestGlucose = documentSnapshot.getLong("after_eating_lowest");
+                                                        if (documentSnapshot.getLong("after_eating_average") != 0){
+                                                            afterEatingGlucoseDataLength++;
+                                                            afterEatingTotalGlucose += documentSnapshot.getLong("after_eating_average");
+                                                        }
+
+                                                    }
+
+                                                    if (documentSnapshot.contains("after_2_3_hours_average") &&
+                                                            documentSnapshot.contains("after_2_3_hours_highest")&&
+                                                            documentSnapshot.contains("after_2_3_hours_lowest")){
+
+                                                        if (documentSnapshot.getLong("after_2_3_hours_highest") > after2_3HrsEatingHighestGlucose)
+                                                            after2_3HrsEatingHighestGlucose = documentSnapshot.getLong("after_2_3_hours_highest");
+                                                        if (documentSnapshot.getLong("after_2_3_hours_lowest") < after2_3HrsEatingLowestGlucose)
+                                                            after2_3HrsEatingLowestGlucose = documentSnapshot.getLong("after_2_3_hours_lowest");
+                                                        if (documentSnapshot.getLong("after_2_3_hours_average") != 0){
+                                                            after2_3HrsEatingGlucoseDataLength++;
+                                                            after2_3HrsEatingTotalGlucose += documentSnapshot.getLong("after_2_3_hours_average");
+                                                        }
+
+                                                    }
+
                                                 }
                                             }
 
                                             glucoseAverage = glucoseLevelTotal / documentLength;
 
+                                            if (fastingGlucoseDataLength != 0)
+                                                fastingAverageGlucose = fastingTotalGlucose / fastingGlucoseDataLength;
 
-                                            setUpHighestLowestAndAverage(glucoseAverage, glucoseHighest, glucoseLowest);
+                                            if (afterEatingGlucoseDataLength != 0)
+                                                afterEatingAverageGlucose = afterEatingTotalGlucose / afterEatingGlucoseDataLength;
+
+                                            if (after2_3HrsEatingGlucoseDataLength != 0)
+                                                after2_3HrsEatingAverageGlucose = after2_3HrsEatingTotalGlucose / after2_3HrsEatingGlucoseDataLength;
+
+
+
+                                            setUpHighestLowestAndAverage(glucoseAverage, glucoseHighest, glucoseLowest,
+                                                    fastingHighestGlucose, fastingLowestGlucose, fastingAverageGlucose,
+                                                    afterEatingHighestGlucose, afterEatingLowestGlucose, afterEatingAverageGlucose,
+                                                    after2_3HrsEatingHighestGlucose, after2_3HrsEatingLowestGlucose, after2_3HrsEatingAverageGlucose);
                                         }
                                     }
                                 }
@@ -825,7 +1485,10 @@ public class HomeFragment extends Fragment {
         }, i);
     }
 
-    private void setUpHighestLowestAndAverage(long glucoseAverage, long glucoseHighest, long glucoseLowest) {
+    private void setUpHighestLowestAndAverage(long glucoseAverage, long glucoseHighest, long glucoseLowest,
+                                              long fastingHighestGlucose, long fastingLowestGlucose, long fastingAverageGlucose,
+                                              long afterEatingHighestGlucose, long afterEatingLowestGlucose, long afterEatingAverageGlucose,
+                                              long after2_3HrsEatingHighestGlucose, long after2_3HrsEatingLowestGlucose, long after2_3HrsEatingAverageGlucose) {
 
         if (getContext() != null){
             userDetails = new UserDetails(getContext());
@@ -836,6 +1499,15 @@ public class HomeFragment extends Fragment {
                 update.put("highest_glucose", glucoseHighest);
                 update.put("lowest_glucose", glucoseLowest);
                 update.put("average_glucose", glucoseAverage);
+                update.put("fasting_highest", fastingHighestGlucose);
+                update.put("fasting_lowest", fastingLowestGlucose);
+                update.put("fasting_average", fastingAverageGlucose);
+                update.put("after_eating_highest", afterEatingHighestGlucose);
+                update.put("after_eating_lowest", afterEatingLowestGlucose);
+                update.put("after_eating_average", afterEatingAverageGlucose);
+                update.put("after_2_3_hours_highest", after2_3HrsEatingHighestGlucose);
+                update.put("after_2_3_hours_lowest", after2_3HrsEatingLowestGlucose);
+                update.put("after_2_3_hours_average", after2_3HrsEatingAverageGlucose);
 
                 FirebaseFirestore.getInstance().collection("Users").document(patientId)
                         .update(update)

@@ -209,6 +209,8 @@ public class Login extends AppCompatActivity {
                                     //Account type is patient, means it can proceed
                                     setUpUserDetails();
 
+
+
                                    if(FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()) {
                                        new Handler().postDelayed(new Runnable() {
                                            @Override

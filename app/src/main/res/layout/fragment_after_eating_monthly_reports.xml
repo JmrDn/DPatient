@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FAFAFA"
+    android:orientation="vertical"
+    tools:context=".ReportsFasting.AfterEatingReports.AfterEatingMonthlyReports">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:background="@color/white"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/previous_arrow"
+            android:paddingEnd="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="20dp"
+            android:text=""
+            android:id="@+id/previousYearAction_Button"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/year_Textview"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="2023"
+            android:textSize="25sp"
+            android:layout_marginTop="10dp"
+            android:textAlignment="center"
+            android:fontFamily="@font/calibribold"
+            android:textColor="@color/black"
+            tools:ignore="HardcodedText" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/next_arrow"
+            android:layout_marginEnd="20dp"
+            android:paddingStart="15dp"
+            android:layout_marginTop="10dp"
+            android:text=""
+            android:textColor="@color/patient_color_bg"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:id="@+id/nextYearAction_Button"
+            tools:ignore="HardcodedText" />
+    </LinearLayout>
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:background="@color/white"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:id="@+id/linechart"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_centerInParent="true"
+        android:background="@color/white"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:id="@+id/noData_FrameLayout">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <TextView
+                android:id="@+id/noData_Textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No data"
+                android:fontFamily="@font/calibribold"
+                android:textSize="25sp"
+                android:layout_centerInParent="true"
+                android:textColor="@color/black"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Start using our sensor to track your glucose level"
+                android:layout_below="@id/noData_Textview"
+                android:layout_centerHorizontal="true"
+
+                android:textSize="15sp"
+                android:fontFamily="@font/calibri_regular"
+                android:textColor="@color/gray"
+                tools:ignore="HardcodedText" />
+        </RelativeLayout>
+    </FrameLayout>
+
+</LinearLayout>

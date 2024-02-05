@@ -22,6 +22,12 @@ public class CalendarUtils {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
+    public static String yearFromDate(LocalDate date){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy");
+        return date.format(formatter);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public static ArrayList<LocalDate> daysInMonthArray(LocalDate date){
         ArrayList<LocalDate> daysInMonthArray = new ArrayList<>();
         YearMonth yearMonth = YearMonth.from(date);

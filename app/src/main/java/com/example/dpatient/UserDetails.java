@@ -20,6 +20,13 @@ public class UserDetails {
         editor.apply();
 
     }
+    public void setFastingStatus(String fasting){
+        editor.putString("fasting", fasting);
+        editor.apply();
+    }
+    public String getFastingStatus(){
+        return sharedPreferences.getString("fasting", null);
+    }
 
     public  void logout(){
         editor.clear();

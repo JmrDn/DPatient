@@ -132,6 +132,44 @@ public class DateAndTimeUtils {
 
     }
 
+    public static String getYear1(String date){
+        String year = String.valueOf(date.charAt(6)) +
+                String.valueOf(date.charAt(7))  +
+                String.valueOf(date.charAt(8))  +
+                String.valueOf(date.charAt(9));
+
+        return year;
+    }
+
+    public static int getMonthNum(String date){
+
+
+        if (date.charAt(3) == '0' && date.charAt(4) == '1')
+            return 1;
+        else if (date.charAt(3) == '0'&& date.charAt(4) == '2')
+            return 2;
+        else if (date.charAt(3) == '0' && date.charAt(4) == '3')
+            return 3;
+        else if (date.charAt(3) == '0' && date.charAt(4) == '4')
+            return 4;
+        else if (date.charAt(3) == '0' && date.charAt(4) == '5')
+            return 5;
+        else if (date.charAt(3) == '0' && date.charAt(4) == '6')
+            return 6;
+        else if (date.charAt(3) == '0' && date.charAt(4) == '7')
+            return 7;
+        else if (date.charAt(3) == '0' && date.charAt(4) == '8')
+            return 8;
+        else if (date.charAt(3) == '0' && date.charAt(4) == '9')
+            return 9;
+        else if (date.charAt(3) == '1' && date.charAt(4) == '0')
+            return 10;
+        else if (date.charAt(3) == '1' && date.charAt(4) == '1')
+            return 11;
+        else
+            return 12;
+    }
+
     public static String getTimeForLineChart(String time){
         String TIME = "";
 

@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".ReportsFasting.AfterEatingReports.AfterEatingDailyReports">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:orientation="vertical"
+        android:background="@color/white">
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/previous_arrow"
+                android:paddingEnd="10dp"
+                android:layout_marginStart="20dp"
+                android:id="@+id/previousWeekAction_Button"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/monthYear_Textview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="Feb 2023"
+                android:textSize="25sp"
+                android:textAlignment="center"
+                android:fontFamily="@font/calibribold"
+                android:textColor="@color/black"
+                tools:ignore="HardcodedText" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/next_arrow"
+                android:layout_marginEnd="20dp"
+                android:paddingStart="15dp"
+                android:textColor="@color/patient_color_bg"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:id="@+id/nextWeekAction_Button"
+                tools:ignore="HardcodedText" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="SUN"
+                android:fontFamily="@font/calibribold"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:layout_weight="1"
+                android:textAlignment="center"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="MON"
+                android:fontFamily="@font/calibribold"
+                android:textSize="20sp"
+                android:layout_weight="1"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                tools:ignore="HardcodedText" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="TUE"
+                android:fontFamily="@font/calibribold"
+                android:textSize="20sp"
+                android:layout_weight="1"
+                android:textColor="@color/black"
+                android:textAlignment="center"
+                tools:ignore="HardcodedText" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="WED"
+                android:layout_weight="1"
+                android:fontFamily="@font/calibribold"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:textAlignment="center"
+                tools:ignore="HardcodedText" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="THU"
+                android:fontFamily="@font/calibribold"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:layout_weight="1"
+                android:textAlignment="center"
+                tools:ignore="HardcodedText" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="FRI"
+                android:layout_weight="1"
+                android:textColor="@color/black"
+                android:textAlignment="center"
+                android:fontFamily="@font/calibribold"
+                android:textSize="20sp"
+                tools:ignore="HardcodedText" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="SAT"
+                android:fontFamily="@font/calibribold"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:layout_weight="1"
+                android:textAlignment="center"
+                tools:ignore="HardcodedText" />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="10dp"
+            android:id="@+id/calendarRecyclerview"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/lineChart_FrameLayout">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <com.github.mikephil.charting.charts.LineChart
+                            android:layout_width="match_parent"
+                            android:layout_height="300dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="20dp"
+                            android:id="@+id/lineChart"/>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="10dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_weight="1">
+                                <TextView
+                                    android:id="@+id/dayHighestGlucose_Textview"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="180"
+                                    android:fontFamily="@font/calibri_regular"
+                                    android:textColor="@color/black"
+                                    android:textSize="30sp"
+                                    android:layout_gravity="center"
+                                    tools:ignore="HardcodedText" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Highest Glucose"
+                                    android:layout_gravity="center"
+                                    android:fontFamily="@font/calibri_regular"
+                                    android:textColor="@color/black"
+                                    android:textSize="15sp"
+                                    tools:ignore="HardcodedText" />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_weight="1">
+                                <TextView
+                                    android:id="@+id/dayLowestGlucose_Textview"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="180"
+                                    android:fontFamily="@font/calibri_regular"
+                                    android:textColor="@color/black"
+                                    android:textSize="30sp"
+                                    android:layout_gravity="center"
+                                    tools:ignore="HardcodedText" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Lowest Glucose"
+                                    android:layout_gravity="center"
+                                    android:fontFamily="@font/calibri_regular"
+                                    android:textColor="@color/black"
+                                    android:textSize="15sp"
+                                    tools:ignore="HardcodedText" />
+
+                            </LinearLayout>
+
+
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/dayAverageGlucose_Textview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="180"
+                            android:fontFamily="@font/calibri_regular"
+                            android:layout_marginTop="5dp"
+                            android:textColor="@color/black"
+                            android:textSize="30sp"
+                            android:layout_gravity="center"
+                            tools:ignore="HardcodedText" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Average Glucose"
+                            android:layout_gravity="center"
+                            android:fontFamily="@font/calibri_regular"
+                            android:textColor="@color/black"
+                            android:textSize="15sp"
+                            android:layout_marginBottom="20dp"
+                            tools:ignore="HardcodedText" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="History"
+                            android:fontFamily="@font/calibribold"
+                            android:textColor="@color/black"
+                            android:textSize="20sp"
+                            android:layout_marginStart="20dp"
+                            tools:ignore="HardcodedText" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/glucoseHistory_Recyclerview"
+                            android:layout_marginTop="10dp"/>
+
+
+                    </LinearLayout>
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_centerInParent="true"
+                    android:id="@+id/noData_FrameLayout">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        >
+
+                        <TextView
+                            android:id="@+id/noData_Textview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="No data"
+                            android:fontFamily="@font/calibribold"
+                            android:textSize="25sp"
+                            android:layout_centerInParent="true"
+                            android:textColor="@color/black"
+                            tools:ignore="HardcodedText" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Start using our sensor to track your glucose level"
+                            android:layout_below="@id/noData_Textview"
+                            android:layout_centerHorizontal="true"
+
+                            android:textSize="15sp"
+                            android:fontFamily="@font/calibri_regular"
+                            android:textColor="@color/gray"
+                            tools:ignore="HardcodedText" />
+                    </RelativeLayout>
+                </FrameLayout>
+
+
+            </RelativeLayout>
+        </FrameLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>
